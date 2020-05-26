@@ -1,0 +1,222 @@
+<div class="container">
+  <!-- <ul class="breadcrumb">
+    <li><a href="#/assethealth">Home</a> <span class="divider">/</span></li>
+    <li class="active">Equipment Search</li>
+  </ul> -->
+  <div class="page-header">
+    <h2>Equipment Search</h2>
+  </div>
+</div>        
+<div class="container"> 
+  <div class="card">       
+  <h3>Criteria</h3>
+    <div class="row-fluid">
+      <div class="span12">
+        <form name="equipmentForm" novaliidate ng-submit="getEquipment(equipmentData)">
+          <textarea required name="equipmentText" ng-pattern="/^(\s*[a-zA-Z][a-zA-Z][a-zA-Z]?[a-zA-Z]?\s*\d\d*\s*)(,\s*[a-zA-Z][a-zA-Z][a-zA-Z]?[a-zA-Z]?\s*\d\d*\s*)*$/" ng-model="equipmentData.searchText" id="queryCriteria" rows="5" placeholder="equip1,equip2,equip3,..."></textarea>
+          <input ng-disabled="equipmentData.pendingRequests || equipmentForm.equipmentText.$pristene || equipmentForm.equipmentText.$dirty && equipmentForm.equipmentText.$invalid" type="submit" id="searchBtn" class="btn btn-primary pull-right" value="Search" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container" ng-show="equipmentData.pendingRequests || equipmentData.searchPerformed">
+  <div class="card">
+   <div class="row-fluid">
+     <div id="equipmentResults" class="span12">
+       <div id="spinner" class="text-center" ng-show="equipmentData.pendingRequests">
+         <img src="../images/loading_progress.gif" />
+       </div>
+       <div class="text-center" ng-show="equipmentData.searchPerformed && !equipmentData.resultList.length">
+         <h3>No Results Found</h3>
+       </div>
+       <div ng-show="equipmentData.resultList.length">
+         <h3>Results</h3>
+         <table class="table table-hover">
+               <thead>
+                   <tr>
+                       <th></th>
+                       <th>Initial</th>
+                       <th>Number</th>
+                       <th>Raw UDE Count</th>
+                       <th>Train Count</th>
+                       <th>Railroad Count</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr ng-repeat="equipment in equipmentData.resultList" >
+                       <td>
+                           <a href="#equipDetail" role="button" 
+                           class="btn btn-small" data-toggle="modal" 
+                           ng-click="setFocus(equipment)"
+                           tooltip="view details">
+                               <i class="icon-list"></i>
+                           </a>
+                       </td>
+                       <td>
+                           {{equipment.initial}}
+                       </td>
+                       <td>
+                           {{equipment.number}}
+                       </td>
+                       <td>
+                           {{equipment.healthSummary.rawUdeCount}}
+                       </td>
+                       <td>
+                           {{equipment.healthSummary.trainCount}}
+                       </td>
+                       <td>
+                           {{equipment.healthSummary.railroadCount}}
+                       </td>
+                   </tr>
+               </tbody>
+         </table>
+       </div>
+     </div>
+   </div>
+  </div>
+</div>
+</div>
+<div id="equipDetail" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+           <h3>Detail for {{focus.initial}} {{focus.number}}</h3>
+   </div>
+   <div class="modal-body">
+       <div class="tabbable">
+         <ul class="nav nav-tabs">
+           <li class="active"><a href="#tab1" data-toggle="tab">Characteristics</a></li>
+           <li><a href="#tab2" data-toggle="tab">LOR Failures</a></li>
+           <li><a href="#tab3" data-toggle="tab">Class I Inspections</a></li>
+           <li><a href="#tab4" data-toggle="tab">ABT Inspections</a></li>
+         </ul>
+         <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td class="text-right"><strong>EIN:</strong></td>
+              <td>{{focus.characteristics.ein}}</td>   
+            </tr>
+            <tr>
+               <td class="text-right"><strong>Built Date:</strong></td>
+               <td>{{focus.characteristics.builtDate|date:'longDate'}}</td>   
+             </tr>
+             <tr>
+               <td class="text-right"><strong>Rebuilt Date:</strong></td>
+               <td>{{focus.characteristics.rebuiltDate|date:'longDate'}}</td>   
+             </tr>
+             <tr>
+                 <td class="text-right"><strong>Type:</strong></td>
+                 <td>{{focus.type.equipmentType}}</td>
+             </tr>
+             <tr>
+                 <td class="text-right"><strong>Group:</strong></td>
+                 <td>{{focus.type.equipmentGroup}}</td>
+             </tr>
+             <tr>
+                 <td class="text-right"><strong>Mechanical Designation:</strong></td>
+                 <td>{{focus.type.mechanicalDesignation}}</td>
+             </tr>
+             <tr>
+                 <td class="text-right"><strong>Lessee:</strong></td>
+                 <td>{{focus.ownershipData.lessee}}</td>
+             </tr>
+             <tr>
+               <td class="text-right"><strong>Maintenance Responsible Party:</strong></td>
+               <td> {{focus.ownershipData.maintenanceResponsibleParty}}</td>
+             </tr>
+             <tr>
+               <td class="text-right"><strong>Stencil Mark Owner:</strong></td>
+               <td> {{focus.ownershipData.stencilMark}}</td>
+             </tr>
+             <tr>
+               <td class="text-right"><strong>Umler Owner:</strong></td>
+               <td> {{focus.ownershipData.umlerOwner}}</td>
+             </tr>
+          </tbody>
+        </table>
+            </div>
+            <div class="tab-pane" id="tab2">
+            <div class="text-center" ng-hide="focus.lineOfRoadFailures.length">No failure data is available from the last 90 days.</div>
+            <div class="text-center" ng-show="focus.lineOfRoadFailures.length">Failure data for the last 90 days.</div>
+              <table ng-show="focus.lineOfRoadFailures.length" class="table table-hover">
+                <thead>
+                <tr>
+	                <th>Message Timestamp</th>
+	                <th>Performing Company Id</th>
+	                <th>Carrier Event Key</th>
+	                <th>Event Timestamp</th>
+	                <th>Cause Code</th>
+	                <th>Load/Empty Ind</th>
+	                <th>Status</th>
+	            
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="failure in focus.lineOfRoadFailures | orderBy:'-date'">
+                  <td class="text-right">{{failure.messageDate|date:'medium'}}</td>
+                  <td class="text-right">{{failure.submittingCarrier}}</td>
+                  <td class="text-right">{{failure.carrierEventKey}}</td>
+                  <td class="text-right">{{failure.date|date:'medium'}}</td>
+                  <td class="text-right">{{failure.causeCode.code}}</td>
+                  <td class="text-right">{{failure.loadEmptyIndicator}}</td>
+                  <td class="text-right">{{failure.activeFlag == 0 && "I" || "A"}}</td>
+                </tr>
+                </tbody>
+             </table>
+            </div>
+            <div class="tab-pane" id="tab3">
+            <div class="text-center" ng-hide="focus.trainInspections.length">No inspection data available from the last 90 days.</div>
+            <div class="text-center" ng-show="focus.trainInspections.length">Inspection data for the last 90 days.</div>
+            <table ng-show="focus.trainInspections.length" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Message Timestamp</th>
+	                <th>Performing Company Id</th>
+	                <th>Carrier Event Key</th>
+                    <th>Event Timestamp</th>
+                    <th>Station</th>
+                    <th>State</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="trainInspection in focus.trainInspections | orderBy:'-date'">
+                  <td class="text-right">{{trainInspection.messageDate|date:'medium'}}</td>
+                  <td class="text-right">{{trainInspection.submittingCarrier}}</td>
+                  <td class="text-right">{{trainInspection.carrierEventKey}}</td>
+                  <td class="text-right">{{trainInspection.date|date:'medium'}}</td>
+                  <td class="text-right">{{trainInspection.inspectionStation}}</td>
+                  <td class="text-right">{{trainInspection.inspectionState}}</td>
+                  <td class="text-right">{{trainInspection.activeFlag == 0 && "I" || "A"}}</td>
+                </tr>
+                </tbody>
+             </table>
+            </div>
+            <div class="tab-pane" id="tab4">
+            <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <td class="text-right"><strong>Inspection Date Done:</strong></td>
+                  <td>{{focus.inspections[0].inspectionDate|date:'longDate'}}</td>   
+                </tr>
+                <tr>
+                  <td class="text-right"><strong>ABT 12-Month Due Date:</strong></td>
+                  <td>{{focus.characteristics.abtAnnualDueDate|date:'longDate'}}</td>   
+                </tr>
+                <tr>
+                  <td class="text-right"><strong>ABT 5/8-Year Due Date:</strong></td>
+                  <td>{{focus.characteristics.abtFiveEighthsDueDate|date:'longDate'}}</td>   
+                </tr>
+              </tbody>
+           </table>
+          </div>
+         </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+  </div>
+</div>
+

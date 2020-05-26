@@ -1,0 +1,23 @@
+{
+    "id": "200345",
+    "name": "Detector Dave",
+    "detectorOwner": "RAIL",
+    "detectorStatus": "ACTIVE",
+    "manufacturerName": "Detector Company.",
+    "siteLatitude": 34.5037003,
+    "siteLongitude": 93.0551794,
+    "detectorModel": "327-879",
+    "detectorType": "HBD",
+    "detectorSubType": null,
+    "detectorDescription": "Rail Detectors",
+    "detectorSoftwareVersion": null,
+    "lastCalibrationDate": 1364815080000,
+    "trackNumber": 0,
+    "milePostNumber": "10.5",
+    "trackType": "SITE",
+    "lineSegmentNumber": 3,
+    "ownerDetectorId": "1100",
+    "detectorSiteName": "Detect Name",
+    "systemOffset": 8,
+    "subDivision": "SubDivision"
+}

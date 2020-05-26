@@ -1,0 +1,46 @@
+
+<div class="container">
+	<ul class="breadcrumb">
+		<li><a href="#/assethealth">Home</a> <span class="divider">/</span></li>
+		<li class="active">AEI DQ</li>
+	</ul>
+	<div class="page-header span12">
+		<h2>Tag Status Summary</h2>
+	</div>
+	<div class="card clearfix">
+		<div class="card clearfix">
+		<a href="#" id="download">Export to CSV</a>
+			<div style="overflow: auto;">
+				<div style='height: 300px'>
+					<table class="table table-striped table-hover" id="metricsDetailTable">
+						<thead>
+							<tr>
+								<th ng-repeat="field in headers"><u>{{field}}</u></th>							
+							</tr>
+						</thead>
+						<tbody style='height: 30px'>
+							<tr ng-repeat="transaction in transactionData">
+								<td ng-repeat="tran in transaction">{{tran||'0.0000'}}</td>
+							</tr>
+						</tbody>
+						<div class="row-fluid">
+							<div class="text-center spinner"
+								ng-show="!isTransactionData">
+								<img src="../images/loading_progress.gif" />
+							</div>
+						</div>						
+						<tbody ng-hide="isTransactionData">
+							<tr>
+								<td colspan="10">
+									<div class="text-center">
+										<h3>No Transactions Found</h3>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

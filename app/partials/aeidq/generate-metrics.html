@@ -1,0 +1,33 @@
+
+<div class="container">
+	<ul class="breadcrumb">
+		<li><a href="#/assethealth">Home</a> <span class="divider">/</span></li>
+		<li class="active">AEI DQ</li>
+	</ul>
+	<div class="page-header span12">
+		<h2>Generate Metrics</h2>
+	</div>
+	<div class="card clearfix">
+		<div class="card clearfix">
+			<div style="overflow: auto;">
+				<div>
+					<div class="col-md-6">
+						<p class="input-group">
+						<label>Metrics Date:</label><input type="text" class="form-control"
+						datepicker-popup="{{dateFormat}}" ng-model="metricsDate"
+						is-open="opened" datepicker-options="dateOptions"
+						ng-required="true" required />
+						</p>
+					</div>				
+				</div>
+				<form ng-submit='generateMetrics()'>
+				<!-- Functionality Disabled for now -->
+					<input type="submit" disabled="disabled" value="Generate" />
+				</form>
+				<div ng-show="submitted">
+					<p class="alert alert-success">{{requestSubmitted}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

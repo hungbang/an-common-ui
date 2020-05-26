@@ -1,0 +1,114 @@
+[
+
+			{
+				"equipmentInitial": "NS",
+				"equipmentNumber": "2669",
+				"loadEmpty": "L",
+				"abLeading": "N/A",
+				"numberOfAxles": "6",
+				"brakeHealth": "Good",
+				"badActorScore": "12.2",
+				"wild": "Yes",
+				"ewma": "No"
+			},
+			{
+				"equipmentInitial": "GTW",
+				"equipmentNumber": "504005",
+				"loadEmpty": "L",
+				"abLeading": "A",
+				"numberOfAxles": "6",
+				"brakeHealth": "Bad",
+				"badActorScore": "18.7",
+				"wild": "Yes",
+				"ewma": "Yes"
+			},
+			{
+				"equipmentInitial": "TTGX",
+				"equipmentNumber": "982465",
+				"loadEmpty": "L",
+				"abLeading": "A",
+				"numberOfAxles": "4",
+				"brakeHealth": "Bad",
+				"badActorScore": "0.0",
+				"wild": "No",
+				"ewma": "No"
+			},
+			{
+				"equipmentInitial": "TTGX",
+				"equipmentNumber": "2942288",
+				"loadEmpty": "L",
+				"abLeading": "A",
+				"numberOfAxles": "4",
+				"brakeHealth": "Good",
+				"badActorScore": "3.5",
+				"wild": "No",
+				"ewma": "No"
+			},
+			{
+				"equipmentInitial": "TTGX",
+				"equipmentNumber": "985732",
+				"loadEmpty": "L",
+				"abLeading": "A",
+				"numberOfAxles": "4",
+				"brakeHealth": "Bad",
+				"badActorScore": "0.0",
+				"wild": "No",
+				"ewma": "Yes"
+			},
+			{
+				"equipmentInitial": "CP",
+				"equipmentNumber": "546173",
+				"loadEmpty": "L",
+				"abLeading": "A",
+				"numberOfAxles": "4",
+				"brakeHealth": "Good",
+				"badActorScore": "0.0",
+				"wild": "Yes",
+				"ewma": "Yes"
+			},
+			{
+				"equipmentInitial": "NS",
+				"equipmentNumber": "171719",
+				"loadEmpty": "L",
+				"abLeading": "A",
+				"numberOfAxles": "4",
+				"brakeHealth": "Good",
+				"badActorScore": "9.6",
+				"wild": "Yes",
+				"ewma": "Yes"
+			},
+			{
+				"equipmentInitial": "TTGX",
+				"equipmentNumber": "962209",
+				"loadEmpty": "L",
+				"abLeading": "A",
+				"numberOfAxles": "4",
+				"brakeHealth": "Good",
+				"badActorScore": "14.1",
+				"wild": "Yes",
+				"ewma": "No"
+			},
+			{
+				"equipmentInitial": "ETTX",
+				"equipmentNumber": "710903",
+				"loadEmpty": "L",
+				"abLeading": "A",
+				"numberOfAxles": "4",
+				"brakeHealth": "Bad",
+				"badActorScore": "6.8",
+				"wild": "No",
+				"ewma": "No"
+			},
+			{
+				"equipmentInitial": "NS",
+				"equipmentNumber": "72776",
+				"loadEmpty": "N/A",
+				"abLeading": "N/A",
+				"numberOfAxles": "N/A",
+				"brakeHealth": "Good",
+				"badActorScore": "12.6",
+				"wild": "No",
+				"ewma": "Yes"
+			}
+
+]

@@ -1,0 +1,104 @@
+
+<div class="container">
+	<ul class="breadcrumb">
+		<li><a href="#/assethealth">Home</a> <span class="divider">/</span></li>
+		<li class="active">Support Dashboard</li>
+	</ul>
+	<div class="page-header span12">
+		<h2>Audit Log Tracing</h2>
+	</div>
+	<div class="card clearfix">
+		<div class="card clearfix">
+			<div style="overflow: auto;">
+				<div>
+					<div>
+						<button ng-click="addFilter()">Add Search Criteria</button>
+					</div>
+					<div class="form-group" data-ng-repeat="filter in filters">
+						<div>
+							<select ng-model='filter.selectedItem'
+								ng-options='type.name for type in criteria'
+								ng-change="populateFilterOptions()">
+								<option value="">-- Select Filter Type --</option>
+							</select> <select ng-model='filter.text' ng-show='filter.showDropdown'
+								ng-options='option.value as option.name for option in filter.options'>
+								<option value="">-- Choose Value --</option></select>
+								
+							<input type="text" class="form-control" ng-show='filter.showCalendar'
+								datepicker-popup="{{dateFormat}}" ng-model="filter.dt" is-open="opened"
+								datepicker-options="dateOptions"
+								date-disabled="disabled(date, mode)"
+								close-text="Close" />
+							<span ng-show='filter.showCalendar'>({{dateFormat}})</span>
+								
+							<input type="text" ng-model="filter.text" ng-show='filter.showTextInput' />	
+								
+							[<a href ng-click='filters.splice($index, 1)'>X</a>]
+						</div>
+					</div>
+				</div>
+				<form ng-submit='getResults()'>
+					<input type="submit" value="Get Results" />
+				</form>
+				{{transactionData.errorMessage}}
+				<div style='height: 300px'>
+					<table class="table table-striped table-hover"
+						id="transactionDetailTable">
+						<thead>
+							<tr>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'x'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Message</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'transactionDate'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Transaction Date</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'messageDate'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Message Date</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'systemId'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>System ID</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'companyMark'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Mark</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'userMessageId'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>User ID</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'messageType'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Message Type</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'transactionId'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Transaction ID</u></th>
+							</tr>
+						</thead>
+						<tbody style='height: 30px'>
+							<tr
+								ng-repeat="element in transactionData.transactionList">
+								<!-- <td><button ng-click="downloadMessageContents(element.transactionId)">Download</button></td>  -->
+								<td><a ng-href="/ah-detector-registration-ui/main/secure/transaction/auditLogEntry/download?uid={{element.transactionId}}">Download</a></td>
+								
+								<td>{{element.context.transactionDate | date:'MM/dd/yyyy HH:mm:ss Z'}}</td>
+								<td>{{element.context.messageDate | date:'MM/dd/yyyy HH:mm:ss Z'}}</td>
+								<td>{{element.context.systemId}}</td>								
+								<td>{{element.context.companyMark}}</td>
+								<td>{{element.context.userId}}</td>
+								<td>{{element.context.messageType}}</td>
+								<td>{{element.transactionId}}</td>
+							</tr>
+						</tbody>
+						<tbody ng-hide="isTransactionData">
+							<tr>
+								<td colspan="10">
+									<div class="text-center">
+										<h3>No Records Found</h3>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

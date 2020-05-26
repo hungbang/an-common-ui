@@ -1,0 +1,21 @@
+/** Sortable table features **/
+.tablesorter th {
+    background-image: url('../images/sort_both.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    cursor: pointer;
+}
+.tablesorter th.headerSortUp {
+    background-image: url('../images/sort_asc.png');
+    background-color: #993333;
+    color: #eeeeee;
+}
+.tablesorter th.headerSortDown {
+    background-image: url('../images/sort_desc.png');
+    background-color: #993333;
+    color: #eeeeee;
+}
+.table-condensed th,
+.table-condensed td {
+    padding: 4px 5px;
+}

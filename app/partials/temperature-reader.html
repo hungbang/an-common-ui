@@ -1,0 +1,579 @@
+<div class="container">
+	<div class="row-fluid">
+		<div class="page-header span12">
+			<h3 align="center">Wayside Analysis</h3>
+		</div>
+	</div>
+
+
+<div class="container">
+	<div class="row-fluid">
+		<!-- <div ng-show="isAdminAndITUiEnable">
+			<div class="text-center spinner"
+				ng-show="!userMarkFlag">
+				<img src="../images/loading_progress.gif" />
+				<h3>Processing your Request. Please Wait</h3>
+			</div>
+			<div class="text-center" ng-show="userMarkFlag && !userMarks.length">
+				<h3>No Results Found</h3>
+			</div>
+		</div> -->
+
+	
+	
+			<div class="span2" ng-show="isAdminAndITUiEnable && userMarkFlag">
+				<form class="form-inline">
+					<label><b>Mark:</b> </label> <select name="userMark"
+						ng-model="companyMark" ng-change="getDetectorSites(companyMark);"
+						style="width: 80px">
+						<option ng-repeat="mark in userMarks">{{mark}}</option>
+					</select>
+				</form>
+			</div>
+			
+		<!-- <div class="row-fluid"> -->
+				<div class="text-center spinner"
+			ng-show="!sites.length && retrievingSitesFlag">
+			<img src="../images/loading_progress.gif" />
+			<h3>Processing your Request. Please Wait</h3>
+				</div>
+			<div class="text-center" ng-show="!sites.length && !retrievingSitesFlag">
+				<h3>No Results Found</h3>
+			</div>
+	<!-- </div> -->
+			
+			<div class="span4" ng-show="sites.length">
+			<form class="form-inline">
+				<label><b>Site:</b>
+				</label> <select name="siteId" ng-model="detectorEventType"
+					ng-options="detectorEventType.carrierDetectorId for detectorEventType in sites" ng-change="getTrainPassData();"
+					style="width: 200px">
+					<option value="">Select a site</option>
+				</select>
+			</form>
+		</div>
+
+		<div class="span6" ng-show="trainPassDataMainFlag">
+			<div id="trainPassDataResults" class="span15">
+				<div class="text-center spinner"
+					ng-show="retrievingTrainPassesFlag && !trainPassData.length">
+					<img src="../images/loading_progress.gif" />
+					<h3>Processing your Request. Please Wait</h3>
+				</div>
+				<div class="text-center"
+					ng-show="!trainPassData.length && !trainPassDataSpinner && !retrievingTrainPassesFlag">
+					<h3>No Results Found</h3>
+				</div>
+				<form class="form-inline" ng-show="trainPassData.length">
+					<label><b>Train Pass:</b>
+					</label> <select id="trainPassList" name="trainPassId"
+						ng-model="trainPassDataItem"
+						ng-options="'ID:'+trainPassDataItem.trainPassId +' TS: '+trainPassDataItem.readTs for trainPassDataItem in trainPassData |orderBy:order:reverse;"
+						ng-change="handleSelectTrainPass(t);" style="width: 200px">
+						<option value="">Select a train pass</option>
+					</select> <b>&nbsp;</b>
+					<button id="selectPreviousTrainPass"
+						ng-click="displayPreviousTrainPass()"
+						class="glyphicon glyphicon-chevron-left">
+						<b> < </b>
+					</button>
+					<b>[{{selectedTrainPassIndex + 1}} of {{trainPassData.length}}]</b>
+					<button id="selectNextTrainPass" ng-click="displayNextTrainPass()"
+						class="glyphicon glyphicon-chevron-right">
+						<b> > </b>
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!--  <ul rn-carousel rn-carousel-index="selectedTrainPassIndex">
+      <li ng-repeat="trainPassDataItem in trainPassData"> -->
+
+	<div id="chartDetail" ng-show="trainPassDetailFlag" class="row-fluid" style="width:980px">
+		<div class="card" style="padding-right: 0px; margin-right: 0px;width:100%">
+
+
+			<div class="text-center spinner"
+				ng-show="trainPassDataItem.retrievingPlotDataFlag">
+				<img src="../images/loading_progress.gif" />
+				<h3>Processing your Request. Please Wait</h3>
+			</div>
+			<div class="text-center"
+				ng-show="!trainPassDataItem.plotPoints && !trainPassDataItem.retrievingPlotDataFlag">
+				<h3>No Results Found</h3>
+			</div>
+
+			<div
+				ng-hide="!trainPassDataItem.plotPoints && !trainPassDataItem.retrievingPlotDataFlag">
+				<a ng-click="toggleGraphHelp()">
+					<p align="right">
+						<i class="icon-question-sign"></i>
+					</p>
+				</a>
+			</div>
+			<div style="width: 1100px; height: 1px;" id="graphHelp"
+				ng-show="graphHelpFlag">
+				<p align="right">
+					<img align="top" id="graph_Help" border="0"
+						src="../images/graph_Help.png" width="280" height="100" />
+				</p>
+			</div>
+
+			<div id="temperature-chart" class="jqplot-target"
+				style="width: 100%; height: 520px;"></div>
+
+             <div style="width: 100%; height: 260px;"></div>
+             <hr />
+			<div>
+				<label ng-click="toggleTrainPassStatsTableDisplay();"><u
+					id="trainPassStatsTable"></u>
+				</label>
+			</div>
+			<div class="container" id="trainPassStats"
+				ng-show="trainPassStatsTableFlag" style="padding-right: 10px;width:980px">
+				<div class="text-center spinner"
+					ng-show="trainPassDataItem.retrievingChartDataFlag">
+					<img src="../images/loading_progress.gif" />
+					<h3>Processing your Request. Please Wait</h3>
+				</div>
+				<div class="text-center"
+					ng-show="!trainPassDataItem.retrievingChartDataFlag && trainPassDataItem.chartData.axleReads.length==0">
+					<h3>No Results Found</h3>
+				</div>
+				<div ng-show="trainPassDataItem.chartData.axleReads.length">
+					<table class="table table-hover" border="2">
+						<tr>
+							<td>Braking State:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.brakingState}}</b>
+							</td>
+							<td>LCL L/R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftConfidenceIntervalLowerLimitWheelTempF}}/{{trainPassDataItem.chartData.detectorAxleReadSummary.rightConfidenceIntervalLowerLimitWheelTempF}}</b>
+							</td>
+							<td>IQR L/R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftInterquartileRangeWheelTempF}}/{{trainPassDataItem.chartData.detectorAxleReadSummary.rightInterquartileRangeWheelTempF}}</b>
+							</td>
+							<td>LCL Threshold:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.confidenceIntervalLowerLimitBrakingThresholdWheelTempF}}</b>
+							</td>
+							<td>IQR Threshold:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.interquartileRangeBrakingThresholdWheelTempF}}</b>
+							</td>
+						</tr>
+						<tr>
+							<td>Train Mean Temp:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.trainAvgTemp}}</b>
+							</td>
+							<td>Mean Wheel Temp L:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftSideMeanTemperature}}</b>
+							</td>
+							<td>Normalized Mean Temp L:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftSideNormalMeanTemperature}}</b>
+							</td>
+							<td>STD DEV L:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftSideStdev}}</b>
+							</td>
+							<td>Comp Factor L:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftSideCompensationFactor}}</b>
+							</td>
+						</tr>
+						<tr>
+							<td>Car Axle Count:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.totalAxleCount}}</b>
+							</td>
+							<td>Mean Wheel Temp R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.rightSideMeanTemperature}}</b>
+							</td>
+							<td>Normalized Mean Temp R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.rightSideNormalMeanTemperature}}</b>
+							</td>
+							<td>STD DEV R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.rightSideStdev}}</b>
+							</td>
+							<td>Comp Factor R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.rightSideCompensationFactor}}</b>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>Mean Bearing Temp L:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftSideMeanBearingTemperature}}</b>
+							</td>
+							<td>Mean Bearing Temp R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.rightSideMeanBearingTemperature}}</b>
+							</td>
+							<td>Bearing Quartile1 L:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftBearingQuartile1TempF}}</b>
+							</td>
+							<td>Bearing Quartile1 R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.rightBearingQuartile1TempF}}</b>
+							</td>
+							<td>Bearing Quartile2 L:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftBearingQuartile2TempF}}</b>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>Bearing Quartile2 R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.rightBearingQuartile2TempF}}</b>
+							</td>
+							<td>Bearing Quartile3 L:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.leftBearingQuartile3TempF}}</b>
+							</td>
+							<td>Bearing Quartile3 R:<b>
+									{{trainPassDataItem.chartData.detectorAxleReadSummary.rightBearingQuartile3TempF}}</b>
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+
+					</table>
+				</div>
+			</div>
+
+			<div>
+				<label ng-click="toggleAnnotationsDisplay();"><u
+					id="annotations"></u>
+				</label>
+			</div>
+			<div id="annotationsData">
+				<table class="table table-hover">
+					<tbody>
+						<tr>
+							<th></th>
+							<th></th>
+							<th style="text-align: center;"><label><b>Annotations</b>
+							</label>
+							</th>
+							<th nowrap style="text-align: left;"><a
+								id="other_annotations"
+								style="font-size: 12px; font-weight: normal; color: grey; line-height: 20px; cursor: pointer;"
+								rel="popover" data-placement='fixed' title="Notes">Other
+									Annotations ({{trainPassDataItem.otherUserAnnotations.length}})</a>
+								<script>
+				      $(function (){
+				         $("#other_annotations").popover({ 
+						    html : true,
+						    container: '#other_annotations',
+						    content: function() {
+						      return $('#user_annotation_notes_popover_content_wrapper').html();
+						    }
+						  });
+				      });
+				    </script></th>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><img src="../images/loading_progress.gif"
+								ng-show="trainPassDataItem.retrievingUserAnnotationDataFlag" />
+								<input type="text" id="annotationCode"
+								style="width: 60px; height: 30px; text-transform: uppercase;" />
+								<!-- 
+		          	 	onkeydown="handleUserAnnotationDataUpdate(event)"
+		          	 	ng-model="trainPassDataItem.userAnnotationData.annotationCode"/>
+		          	 	 --></td>
+							<td><input type="text" id="assessmentText"
+								style="width: 580px; height: 30px;" /> <!-- 
+		         		ng-model="trainPassDataItem.userAnnotationData.assessmentText" />
+		         		 --></td>
+						</tr>
+						<tr>
+							<td colspan="3" style="padding-left: 110px;">
+
+								<div id="annotationCodeTranslation" style="font: bold;">
+									<!-- {{trainPassDataItem.userAnnotationData.annotationCodeTranslation}}  -->
+								</div> <!-- <div id="annotationCodeSuggestions" style="">
+		        	{{trainPassDataItem.userAnnotationData.annotationCodeTranslation}} 
+		        </div> --></td>
+							<td nowrap style="text-align: right;"><a
+								ng-click="toggleHelp()"> <i class="icon-info-sign"></i>
+							</a> <!-- <a  style="font-size: 12px;font-weight: normal; color:grey; line-height: 20px; cursor: pointer;" ng-click ="toggleHelp()">
+		      			<i class="icon-info-sign"></i>Annotation Decision Tree</a> -->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div style="width: 1400px; height: 0px;">
+					<p align="right">
+						<img id="img_annotationDecision" align="top" border="0"
+							src="../images/annotation_DecisionTree.png" width="600"
+							height="140" />
+					</p>
+				</div>
+			</div>
+
+			<!-- <p align="right">
+		      	<a  style="font-size: 14px;font-weight: normal; color:black; line-height: 20px; cursor: pointer;" 
+		      		ng-click ="toggleHelp()">
+		      		<b><u>Annotation Help</u></b></a>&nbsp;&nbsp;&nbsp;</p>  -->
+			<div id="staticTable" class="row-fluid" style="padding-right: 10px;">
+				<table class="table table-hover" border="2">
+					<tr>
+						<td>1.Data Distribution: (N) Normal (L) LogNormal (S)
+							Scattered (U) Unspecified</td>
+						<td>2.Data Quality: (G) Good (X) Bad (U) Unknown</td>
+					</tr>
+					<tr>
+						<td>3.Train Dynamics: (B) Braking (N) Non-Braking (P)
+							Partially Braking (U) Unknown</td>
+						<td>4.Outliers: (C) Cold (H) Hot (B) Both (N) None</td>
+					</tr>
+					<tr>
+						<td colspan="2">3.Detector Problems: (A) Alignment Issues (T) Technology (U) Unknown Or
+							Data Problems: (I) Insufficient sample size (N) Noise</td>
+					</tr>
+				</table>
+			</div>
+
+			<div>
+				<label ng-click="toggleFrequencyChartDisplay();"><u
+					id="frequencyChart"></u>
+				</label>
+			</div>
+
+			<div ng-show="trainPassFrequencyDistributionFlag">
+				<div class="text-center spinner"
+					ng-show="trainPassDataItem.retrievingChartDataFlag">
+					<img src="../images/loading_progress.gif" />
+					<h3>Processing your Request. Please Wait</h3>
+				</div>
+				<div class="text-center"
+					ng-show="!trainPassDataItem.retrievingChartDataFlag && trainPassDataItem.chartData.axleReads.length==0">
+					<h3>No Results Found</h3>
+				</div>
+			</div>
+
+
+
+			<div id="temperature-frequency-chart" class="jqplot-target"
+				ng-show="trainPassFrequencyDistributionFlag"
+				style="width: 980px; height: 400px;"></div>
+			<div ng-show="trainPassFrequencyDistributionFlag">
+				<a ng-click="toggleFrequencyGraphHelp()">
+					<p align="right">
+						<i class="icon-question-sign"></i>
+					</p>
+				</a>
+			</div>
+			<div style="width: 1080px; height: 0px;" id="freq_graphHelp"
+				ng-show="freq_graphHelpFlag">
+				<p align="right">
+					<img align="top" id="freq_graph_Help" border="0"
+						src="../images/freq_graph_Help.png" width="280" height="100" />
+				</p>
+			</div>
+
+			<div>
+				<label ng-click="toggleTableDataDisplay();">
+				<u	id="dataTable"></u>
+				</label>
+			</div>
+
+			<div class="container" id="trainPassDetailId" style="width: 980px;"
+				ng-show="trainPassDataTableFlag">
+				<div id="trainPassDetailResults" class="row-fluid">
+					<div class="text-center spinner"
+						ng-show="trainPassDataItem.retrievingChartDataFlag">
+						<img src="../images/loading_progress.gif" />
+					</div>
+					<div class="text-center"
+						ng-show="trainPassDataItem.chartData.axleReads.length == 0 && !trainPassDataItem.retrievingChartDataFlag">
+						<h3>No Results Found</h3>
+					</div>
+					<div style="height: 440px;"
+						ng-show="trainPassDataItem.chartData.axleReads.length">
+						<div style="height: 105px;width:980px">
+							<!-- Adding ng-table related code -->
+
+							<table style="font-size:12px;width:980px">
+								<!-- <thead><tr><th>Columns Selection</th></tr></thead> -->
+								<tr>
+									<td><b>Columns Selection:&nbsp;</b></td>
+								</tr>
+								<tr>
+									<td>{{columns[0].title}}<input type="checkbox"
+										ng-model="columns[0].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[1].title}}<input type="checkbox"
+										ng-model="columns[1].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[2].title}}<input type="checkbox"
+										ng-model="columns[2].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[3].title}}<input type="checkbox"
+										ng-model="columns[3].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[4].title}}<input type="checkbox"
+										ng-model="columns[4].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[17].title}}<input type="checkbox"
+										ng-model="columns[17].visible" />&nbsp;&nbsp;</td>
+
+
+								</tr>
+								<tr>
+									
+									<td>{{columns[5].title}}<input type="checkbox"
+										ng-model="columns[5].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[9].title}}<input type="checkbox"
+										ng-model="columns[9].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[11].title}}<input type="checkbox"
+										ng-model="columns[11].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[13].title}}<input type="checkbox"
+										ng-model="columns[13].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[7].title}}<input type="checkbox"
+										ng-model="columns[7].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[15].title}}<input type="checkbox"
+										ng-model="columns[15].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[18].title}}<input type="checkbox"
+										ng-model="columns[18].visible" />&nbsp;&nbsp;</td>
+								</tr>
+								<tr>
+									
+									<td>{{columns[6].title}}<input type="checkbox"
+										ng-model="columns[6].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[10].title}}<input type="checkbox"
+										ng-model="columns[10].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[12].title}}<input type="checkbox"
+										ng-model="columns[12].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[14].title}}<input type="checkbox"
+										ng-model="columns[14].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[8].title}}<input type="checkbox"
+										ng-model="columns[8].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[16].title}}<input type="checkbox"
+										ng-model="columns[16].visible" />&nbsp;&nbsp;</td>
+									<td>{{columns[19].title}}<input type="checkbox"
+										ng-model="columns[19].visible" />&nbsp;&nbsp;</td>	
+								</tr>
+							</table>
+						</div>
+
+						<div style="max-height: 70px;width:980px">
+							<table class="table table-hover table-condensed" style="font-size:12px;width:980px">
+								<thead>
+									<tr>
+										<th width="75px" ng-show="columns[0].visible"
+											ng-click="orderX = 'equipInitial'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Equip</u></th>
+										<!-- <th width="50px" ng-click="orderX = 'equipNumber'; reverseX=!reverseX" style="cursor: pointer;"><u>Equip Num</u></th> -->
+										<th width="50px" ng-show="columns[1].visible"
+											ng-click="orderX = 'equipTypeCode'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Equip Type</u></th>
+										<th width="30px" ng-show="columns[2].visible"
+											ng-click="orderX = 'axleId'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Train Axle Seq</u></th>
+										<th width="30px" ng-show="columns[3].visible"
+											ng-click="orderX = 'equipAxleSeqNbr'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Equip Axle Seq</u></th>
+										<th width="30px" ng-show="columns[4].visible"
+											ng-click="orderX = 'equipOrientationCode'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Equip Orient ation</u></th>
+										<th width="43px" ng-show="columns[5].visible"
+											ng-click="orderX = 'leftTemp'; reverseX=!reverseX"
+											style="cursor: pointer;">&nbsp;<u>Wheel Temp L</u></th>
+										<th width="43px" ng-show="columns[6].visible"
+											ng-click="orderX = 'rightTemp'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Wheel Temp R</u></th>
+										<th width="48px" ng-show="columns[9].visible"
+											ng-click="orderX = 'predictedWheelTemperatureLeft'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Left Predict Temp</u></th>
+										<th width="48px" ng-show="columns[10].visible"
+											ng-click="orderX = 'predictedWheelTemperatureRight'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Right Predict Temp</u></th>
+										<th width="48px" ng-show="columns[11].visible"
+											ng-click="orderX = 'predictedNormWheelTempLeft'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Left Temp Ratio</u></th>
+										<th width="48px" ng-show="columns[12].visible"
+											ng-click="orderX = 'predictedNormWheelTempRight'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Right Temp Ratio</u></th>
+										<th width="48px" ng-show="columns[13].visible"
+											ng-click="orderX = 'leftWheelZScore'; reverseX=!reverseX"
+											style="cursor: pointer;">&nbsp;<u>Left Z Score</u></th>
+										<th width="48px" ng-show="columns[14].visible"
+											ng-click="orderX = 'rightWheelZScore'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Right Z Score</u></th>
+										<th width="48px" ng-show="columns[7].visible"
+											ng-click="orderX = 'leftNormTemp'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Left Norm
+												Temp</u></th>
+										<th width="48px" ng-show="columns[8].visible"
+											ng-click="orderX = 'rightNormTemp'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Right Norm
+												Temp</u></th>
+										<th width="45px" ng-show="columns[17].visible"
+											ng-click="orderX = 'carAvgTemp'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Car Avg Temp</u></th>
+										<th width="43px" ng-show="columns[15].visible" 
+											ng-click="orderX = 'leftBearingTemp'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Bearing Temp L</u></th>
+										<th width="43px" ng-show="columns[16].visible" 
+											ng-click="orderX = 'rightBearingTemp'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Bearing Temp R</u></th>
+										<th width="43px" ng-show="columns[18].visible" 
+											ng-click="orderX = 'leftBearingKValue'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Bearing KValue L</u></th>
+										<th width="43px" ng-show="columns[19].visible"
+											ng-click="orderX = 'rightBearingKValue'; reverseX=!reverseX"
+											style="cursor: pointer;"><u>Bearing KValue R</u></th>
+										<th width="5px">&nbsp;</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+
+						<div style="max-height: 300px;width:980px; overflow: scroll;">
+							<table class="table table-hover table-condensed">
+								<tbody>
+									<tr
+										ng-repeat="trainPassDataItemAxleRead in trainPassDataItem.chartData.axleReads | orderBy:orderX:reverseX;">
+										<td ng-show="columns[0].visible" width="75px">{{trainPassDataItemAxleRead.equipInitial}}{{trainPassDataItemAxleRead.equipNumber}}</td>
+										<!-- <td align="center" width="50px">{{trainPassDataItemAxleRead.equipNumber}}</td> -->
+										<td ng-show="columns[1].visible" width="50px">{{trainPassDataItemAxleRead.equipTypeCode}}</td>
+										<td ng-show="columns[2].visible" width="30px">{{trainPassDataItemAxleRead.axleId}}</td>
+										<td ng-show="columns[3].visible" width="30px">{{trainPassDataItemAxleRead.equipAxleSeqNbr}}</td>
+										<td ng-show="columns[4].visible" width="30px">{{trainPassDataItemAxleRead.equipOrientationCode}}</td>
+										<td ng-show="columns[5].visible" width="43px">{{trainPassDataItemAxleRead.leftTemp}}</td>
+										<td ng-show="columns[6].visible" width="43px">{{trainPassDataItemAxleRead.rightTemp}}</td>
+										<td ng-show="columns[9].visible" width="48px">{{trainPassDataItemAxleRead.predictedWheelTemperatureLeft}}</td>
+										<td ng-show="columns[10].visible" width="48px">{{trainPassDataItemAxleRead.predictedWheelTemperatureRight}}</td>
+										<td ng-show="columns[11].visible" width="48px">{{trainPassDataItemAxleRead.predictedNormWheelTempLeft}}</td>
+										<td ng-show="columns[12].visible" width="48px">{{trainPassDataItemAxleRead.predictedNormWheelTempRight}}</td>
+										<td ng-show="columns[13].visible" width=48px">{{trainPassDataItemAxleRead.leftWheelZScore}}</td>
+										<td ng-show="columns[14].visible" width="48px">{{trainPassDataItemAxleRead.rightWheelZScore}}</td>
+										<td ng-show="columns[7].visible" width="48px">{{trainPassDataItemAxleRead.leftNormTemp}}</td>
+										<td ng-show="columns[8].visible" width="48px">{{trainPassDataItemAxleRead.rightNormTemp}}</td>
+										<td ng-show="columns[17].visible" width="45px">{{trainPassDataItemAxleRead.carAvgTemp}}</td>
+										<td ng-show="columns[15].visible" width="43px">{{trainPassDataItemAxleRead.leftBearingTemp}}</td>
+										<td ng-show="columns[16].visible" width="43px">{{trainPassDataItemAxleRead.rightBearingTemp}}</td>
+										<td ng-show="columns[18].visible" width="43px">{{trainPassDataItemAxleRead.leftBearingKValue}}</td>
+										<td ng-show="columns[19].visible" width="43px">{{trainPassDataItemAxleRead.rightBearingKValue}}</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>
+</div>
+
+<div id="user_annotation_notes_popover_content_wrapper" style="display: none; width: 600px;">
+	<div ng-show="!trainPassDataItem.otherUserAnnotations.length">Be
+		the first to annotate this train pass.</div>
+	<table ng-show="trainPassDataItem.otherUserAnnotations.length">
+		<tbody>
+			<tr
+				ng-repeat="userAnnotation in (trainPassDataItem.otherUserAnnotations | orderBy: 'modifiedTs':true)">
+				<td>{{userAnnotation.userName}} <b>{{userAnnotation.annotationCodeTranslation}}</b>
+					<br /> &nbsp;&nbsp;{{userAnnotation.modifiedTs | date:'medium'}} <br />
+					&nbsp;&nbsp;{{userAnnotation.assessmentText}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
+
+

@@ -1,0 +1,81 @@
+ <div class="card clearfix">
+    <div class="row-fluid">
+      <div class="span12">
+        <h3>Equipment Summary for Train {{site.selectedTrain.trainId}}</h3>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div id="equipmentResults" class="span12">
+        <div id="spinner" class="text-center" ng-show="site.dataPending">
+          <img src="../images/loading_progress.gif" />
+        </div>
+      <div class="text-center" ng-show="!site.dataPending && !site.selectedTrain.equipment.length">
+        <h3>No Results Found</h3>
+      </div>
+      <div ng-show="site.selectedTrain.equipment">
+        <table class="table table-condensed table-hover table-inverse">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Seq</th>
+              <th>Initial</th>
+              <th>Number</th>
+              <th>Hazmat</th>
+              <th>ABT Req</th>
+              <th>ABT Due Date</th>
+              <th>DDCT</th>
+              <th>WILD Alerts</th>
+              <th>THD Alerts</th>
+              <th>EW</th>
+              <th>MA</th>
+              <th>Type</th>
+              <th>Umler Status</th>
+              <th>Restrict Int</th>
+              <th>UDE</th>
+              <th>Eff Brake</th>
+            </tr>
+          </thead>
+          <tbody id="equipmentRows">
+            <tr ng-class="{selected: isSelectedEquipment(equipment)}" ng-repeat="(id,equipment) in site.selectedTrain.equipment" ng-click="equipmentSelected(equipment)" >
+              <td class="indicator-cell"></td>
+              <td class="">{{$index + 1}}</td>
+              <td>{{equipment.equipInitial}}</td>
+              <td>{{equipment.equipNumber}}</td>
+              <td ng-class="{error:equipment.health.hazmat == 'Y'}">{{equipment.health.hazmat}}</td>
+              <td ng-class="{error:equipment.health.abtRequired == 'Y'}">{{equipment.health.abtRequired}}</td>
+              <td ng-class="{warning:equipment.health.abtPastDue}">{{equipment.health.abtDueDate | date:'longDate'}}</td>
+              <td>{{equipment.health.wildAlertCount}}</td>
+              <td ng-class="{error:equipment.health.hasMandatoryWildAlerts}">
+                  {{equipment.health.wildAlertCount}}
+              </td>
+              <td>
+                  {{equipment.health.thdAlertCount}}
+              </td>
+              <td>
+                  {{equipment.health.earlyWarningCount}}
+              </td>
+              <td>
+                  {{equipment.health.maintenanceAdvisoryCount}}
+              </td>
+              <td>
+                  {{equipment.health.equipmentTypeCode}}
+              </td>
+              <td ng-class="{warning:!equipment.health.umlerStatusAcceptable}">
+                  {{equipment.health.umlerStatus}}
+              </td>
+              <td ng-class="{error:equipment.health.interchangeRestricted == 'Y'}">
+                  {{equipment.health.interchangeRestricted}}
+              </td>
+              <td ng-class="{warning:equipment.health.udeScore > 4}">
+                  {{equipment.health.udeScore || 0}}
+              </td>
+              <td ng-class="{error:equipment.health.hasEffectiveBrakes != 'Y'}">
+                  {{equipment.health.hasEffectiveBrakes}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

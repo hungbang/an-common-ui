@@ -1,0 +1,44 @@
+
+<div class="container">
+	<ul class="breadcrumb">
+		<li><a href="#/assethealth">Home</a> <span class="divider">/</span></li>
+		<li class="active">Admin Dashboard</li>
+	</ul>
+	<div class="page-header span12">
+		<h2>Admin Dashboard</h2>
+	</div>
+</div>
+<!-- 
+<div class="container" style="width: 70%;">
+	<div class="card clearfix">
+		<div class="row-fluid">
+			<div class="span12">
+				<h3>Clear Cache</h3>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12">
+				<ul>
+					<li ng-repeat="url in urlList"><a href='{{url}}'>{{url}}</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+ -->
+<div>
+	<div class="container" style="width: 70%;">
+		<div class="card clearfix">
+			<div class="row-fluid">
+				<div class="span12">
+					<h3>Build Information</h3>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<ul>
+					<li ng-repeat="item in svnData">{{item}}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

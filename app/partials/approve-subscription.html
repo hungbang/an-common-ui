@@ -1,0 +1,174 @@
+<div class="container">
+	<div class="tabbable">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab1" data-toggle="tab"
+				data-ng-click="getSubscriptions('PENDING')"><b>Pending
+						Subscriptions</b></a></li>
+			<li><a href="#tab2" data-toggle="tab"
+				data-ng-click="getSubscriptions('APPROVED')"><b>Approved
+						Subscriptions</b></a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab1">
+				<div class="alert alert-success" ng-show="showSuccessAlert">
+					<strong>The selected request(s) is successfully
+						{{statusMessage}}. The requesting railroad(s) will be notified.</strong>
+				</div>
+				<div class="card">
+					<div class="row-fluid">
+						<div id="spinner" class="text-center" ng-show="siteSpinner">
+							<img src="../images/loading_progress.gif" />
+						</div>
+
+						<div style="overflow: auto;">
+							<table>
+								<tr>
+									<td width="90%" style="text-align: left"><h3>Pending
+											Subscriptions</h3></td>
+									<td nowrap align="right"><b>Find:</b> <input type="text"
+										align="right" ng-model="siteSearch"  maxlength="15"
+										ng-change="doFilter()"></td>
+								</tr>
+							</table>
+							<table ng-table="tableParams" show-filter="false"
+								 class="table table-hover"
+								id="pendingSubscriptionTable">
+								<tbody>
+									<tr ng-repeat="detectorSubDetail in _detectorSubDetails">
+										<td style="text-align: left" header="'ng-table/headers/checkbox.html'" data-title="''">&nbsp;&nbsp;&nbsp;&nbsp;<input
+											type="checkbox"
+											value="{{detectorSubDetail.detectorSubscriptionId}}"
+											ng-model="detectorSubDetail.selected"
+											ng-click="updateSub(detectorSubDetail.detectorSubscriptionId)" /></td>
+										<td style="text-align: center" data-title="'Requesting Railroad'"
+											sortable="subscriberMark">{{
+											detectorSubDetail.subscriberMark }}</td>
+										<td style="text-align: center" data-title="'Detector Site'" sortable="detectorSiteName">{{
+											detectorSubDetail.detectorSiteName }}</td>
+										<td style="text-align: center" data-title="'Detector Name'" sortable="detectorName">{{
+											detectorSubDetail.detectorName }}</td>											
+										<td style="text-align: center" data-title="'Latitude'" sortable="gpsLatitude">{{
+											detectorSubDetail.gpsLatitude }}</td>
+										<td style="text-align: center" data-title="'Longitude'" sortable="gpsLongitude">{{
+											detectorSubDetail.gpsLongitude }}</td>
+										<td style="text-align: center" data-title="'Train Direction'" sortable="trainDirection">{{
+											detectorSubDetail.trainDirection }}</td>
+									</tr>
+								</tbody>
+								<tbody
+									ng-show="(siteSpinner == false && detectorSubDetails.length == 0)">
+									<tr>
+										<td colspan="10">
+											<div class="text-center">
+												<h3>No Subscriptions Found</h3>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div align="right" ng-show="(detectorSubDetails.length != 0)"
+					style="padding-right: 80px;">
+					<button type="button" class="btn btn-info btn-lg"
+						data-toggle="modal" data-target="#commentsPane"
+						ng-show="(selectedSubs.length != 0)" ng-click=updateStatus('APPROVED')>Approve</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-danger btn-lg"
+						data-toggle="modal" data-target="#commentsPane"
+						ng-show="(selectedSubs.length != 0)" ng-click=updateStatus('REJECTED')>Reject</button>
+				</div>
+			</div>
+			<div class="tab-pane" id="tab2">
+				<div class="alert alert-success" ng-show="showSuccessAlert">
+					<strong>The selected request(s) is successfully
+						{{statusMessage}}. The requesting railroad(s) will be notified.</strong>
+				</div>			
+				<div class="card">
+					<div class="row-fluid">
+						<div id="spinner" class="text-center" ng-show="siteSpinner">
+							<img src="../images/loading_progress.gif" />
+						</div>
+
+						<div style="overflow: auto;">
+							<table>
+								<tr>
+									<td width="90%" style="text-align: left"><h3>Approved
+											Subscriptions</h3></td>
+									<td nowrap align="right"><b>Find:</b> <input type="text"
+										align="right" ng-model="siteSearch" maxlength="15"
+										ng-change="doFilter()"></td>
+								</tr>
+							</table>
+							<table ng-table="tableParams" show-filter="false" class="table table-hover" id="approvedSubscriptionTable">
+								<tbody>
+									<tr
+										ng-repeat="detectorSubDetail in _detectorSubDetails">
+										<td style="text-align: left" header="'ng-table/headers/checkbox.html'" data-title="''">&nbsp;&nbsp;&nbsp;&nbsp;<input
+											type="checkbox"
+											value="{{detectorSubDetail.detectorSubscriptionId}}"
+											ng-model="detectorSubDetail.selected"
+											ng-click="updateSub(detectorSubDetail.detectorSubscriptionId)" /></td>										
+										<td style="text-align: center" data-title="'Subscriber Railroad'" sortable="subscriberMark">{{detectorSubDetail.subscriberMark}}</td>
+										<td style="text-align: center" data-title="'Detector Site'" sortable="detectorSiteName">{{detectorSubDetail.detectorSiteName}}</td>
+										<td style="text-align: center" data-title="'Detector Name'" sortable="detectorName">{{detectorSubDetail.detectorName }}</td>
+										<td style="text-align: center" data-title="'Latitude'" sortable="gpsLatitude">{{detectorSubDetail.gpsLatitude}}</td>
+										<td style="text-align: center" data-title="'Longitude'" sortable="gpsLongitude">{{detectorSubDetail.gpsLongitude}}</td>
+										<td style="text-align: center" data-title="'Train Direction'" sortable="trainDirection">{{detectorSubDetail.trainDirection}}</td>
+									</tr>
+								</tbody>
+								<tbody
+									ng-show="(siteSpinner == false && detectorSubDetails.length == 0)">
+									<tr>
+										<td colspan="10">
+											<div class="text-center">
+												<h3>No Subscriptions Found</h3>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div align="right" ng-show="(detectorSubDetails.length != 0)"
+					style="padding-right: 80px;">
+					<button type="button" class="btn btn-info btn-lg"
+						data-toggle="modal" data-target="#commentsPane"
+						ng-show="(selectedSubs.length != 0)" ng-click=updateStatus('REVOKED')>Revoke</button>
+				</div>				
+			</div>
+							<script type="text/ng-template"
+								id="ng-table/headers/checkbox.html">
+        						<input type="checkbox" ng-model="view.selectedAll" ng-click="selectAllFilteredItems()">
+    						</script>
+
+		  </div>
+	</div>
+</div>
+<div id="commentsPane" class="modal hide fade" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<h4>Are you sure you want to {{statusText}} the selected
+			request(s) ?</h4>
+		<h4>
+			<i>Notes/Comments :-</i>
+		</h4>
+	</div>
+	<div class="modal-body">
+		<form name="testForm" class="form-horizontal" role="form" novalidate>
+			<textarea rows="4" cols="80" maxlength="1000" ng-model="comments"></textarea>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<div>
+			<br> <input type="submit" class="btn btn-info btn-lg"
+				ng-click="updateSubscription()" value="Submit" data-dismiss="modal"
+				aria-hidden="true" />
+			<button type="button" class="btn btn-warning btn-lg"
+				data-dismiss="modal" aria-hidden="true">Cancel</button>
+		</div>
+	</div>
+</div>

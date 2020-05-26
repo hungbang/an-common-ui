@@ -1,0 +1,25 @@
+{
+    "id": "200345",
+    "name": "Detector Dave",
+    "history":[
+
+        {
+            "updatedOn": "01/20/2013",
+            "updatedBy": "Joey Gladstone",
+            "type": "WTD",
+            "status": "Active"
+        },
+        {
+            "updatedOn": "03/12/2012",
+            "updatedBy": "Danny Tanner",
+            "type": "WTD",
+            "status": "Inactive"
+        },
+        {
+            "updatedOn": "03/10/2012",
+            "updatedBy": "Uncle Jesse",
+            "type": "WILD",
+            "status": "Active"
+        }
+    ]
+}

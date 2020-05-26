@@ -1,0 +1,244 @@
+<div class="container">
+	<div class="row-fluid">
+		<div class="page-header span12">
+			<h3 align="center">Detector Registry</h3>
+		</div>		
+			<div class="span2" ng-show="isAdminAndITUiEnable && userMarkFlag">
+				<form class="form-inline">
+					<label><b>Mark:</b> </label> <select name="userMark"
+						ng-model="companyMark" ng-change="getDetectorRegistrySites(companyMark);"
+						style="width: 80px">
+						<option ng-repeat="mark in userMarks">{{mark}}</option>
+					</select>
+				</form>
+			</div>	
+	</div>
+</div>
+<div class="container">
+	<div class="card">
+		<div class="row-fluid">
+			<div id="spinner" class="text-center"
+				ng-show="siteSpinner && !sites.length">
+				<img src="../images/loading_progress.gif" />
+			</div>
+
+			<div style="overflow: auto;">
+				<table>
+					<tr>
+						<td width="90%"><h3>Detectors</h3>
+						</td>
+						<td nowrap align="right"><b>Find:</b><input type="text"
+							align="right" ng-model="siteSearch" maxlength="15">
+						</td>
+					</tr>
+				</table>
+				<table class="table table-hover" id="registerDetailTable">
+					<thead>
+						<tr>
+							<th></th>
+							<th nowrap="nowrap"
+								ng-click="orderX = 'detectorName'; reverseX=!reverseX"
+								style="cursor: pointer;"><u>Name</u>
+							</th>
+							<th nowrap="nowrap"
+								ng-click="orderX = 'ownerDetectorId'; reverseX=!reverseX"
+								style="cursor: pointer;"><u>Owner Detector ID</u>
+							</th>
+							<th nowrap="nowrap"
+								ng-click="orderX = 'detectorModel'; reverseX=!reverseX"
+								style="cursor: pointer;"><u>Model</u>
+							</th>
+							<th nowrap="nowrap"
+								ng-click="orderX = 'detectorType'; reverseX=!reverseX"
+								style="cursor: pointer;"><u>Type</u>
+							</th>
+							<th nowrap="nowrap"
+								ng-click="orderX = 'updatedOnSort'; reverseX=!reverseX"
+								style="cursor: pointer;"><u>Updated On</u>
+							</th>
+							<th nowrap="nowrap"
+								ng-click="orderX = 'updatedBy'; reverseX=!reverseX"
+								style="cursor: pointer;"><u>Updated By</u>
+							</th>
+						</tr>
+					</thead>
+					<tbody ng-show="sites.length">
+						<tr
+							ng-repeat="detector in siteFiltered = (sites | filter:siteSearch |orderBy:orderX:reverseX);">
+							<td>
+								<div class="btn-group">
+									<button class="btn btn-small dropdown-toggle" tooltip="options"
+										data-toggle="dropdown">
+										<i class="icon-cog"></i> <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" style="top: -20px; left: 35px;">
+										<li><a href="#registerDetail" role="button"
+											data-toggle="modal"
+											data-ng-click="getRegisterDetail(detector,$index)"> <i
+												class="icon-info-sign"></i> View Details </a>
+										</li>
+										<li><a
+											href="#/detectorHistory/{{detector.detectorId}}/{{detector.detectorName}}">
+												<i class="icon-list"></i> View Historical Summary </a>
+										</li>
+									</ul>
+								</div></td>
+							<td>{{detector.detectorName}}</td>
+							<td>{{detector.ownerDetectorId}}</td>
+							<td>{{detector.detectorModel}}</td>
+							<td>{{detector.detectorType}}</td>
+							<td>{{detector.updatedOn}}</td>
+							<td>{{detector.updatedBy}}</td>
+
+							<td class="regRecordId" style="display: none;">{{detector.id}}</td>
+							<td class="regFilterLength" style="display: none;">{{siteFiltered.length}}</td>
+						</tr>
+					</tbody>
+					<tbody ng-show="(siteSpinner == false && sites.length == 0)">
+						<tr>
+							<td colspan="10">
+								<div class="text-center">
+									<h3>No Detectors Found</h3>
+								</div></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="registerDetail" class="modal hide fade" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true">&times;</button>
+		<h3>Details for {{selectedDetector.detectorSiteName}}</h3>
+	</div>
+	<div class="modal-body">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<td nowrap="nowrap"><strong>Name:</strong>
+					</td>
+					<td>{{selectedDetector.detectorSiteName}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Owner Detector ID:</strong>
+					</td>
+					<td>{{selectedDetector.ownerDetectorId}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Detector Owner:</strong>
+					</td>
+					<td>{{selectedDetector.detectorOwner}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Model:</strong>
+					</td>
+					<td>{{selectedDetector.detectorModel}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Detector Type:</strong>
+					</td>
+					<td>{{selectedDetector.detectorType}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Subdivision:</strong>
+					</td>
+					<td>{{selectedDetector.subDivision}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Milepost:</strong>
+					</td>
+					<td>{{selectedDetector.milePostNumber}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Track Number:</strong>
+					</td>
+					<td>{{selectedDetector.trackNumber}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Latitude:</strong>
+					</td>
+					<td>{{selectedDetector.siteLatitude}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Longitude:</strong>
+					</td>
+					<td>{{selectedDetector.siteLongitude}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>System Offset:</strong>
+					</td>
+					<td>{{selectedDetector.systemOffset}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Elevation:</strong>
+					</td>
+					<td>{{selectedDetector.elevation}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>GeoPrecision:</strong>
+					</td>
+					<td>{{selectedDetector.geoPrecision}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Track Grade:</strong>
+					</td>
+					<td>{{selectedDetector.trackGrade}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Detector Track Side:</strong>
+					</td>
+					<td>{{selectedDetector.detectorTrackSide}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Bearing Scanner Type:</strong>
+					</td>
+					<td>{{selectedDetector.bearingScannerType}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Wheel Scanner Type:</strong>
+					</td>
+					<td>{{selectedDetector.wheelScannerType}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>ABD Detector Type:</strong>
+					</td>
+					<td>{{selectedDetector.abdDetectorType}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Number of Microphones on Left Rail:</strong>
+					</td>
+					<td>{{selectedDetector.numMicrophonesLeftRail}}</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap"><strong>Number of Microphones on Right Rail:</strong>
+					</td>
+					<td>{{selectedDetector.numMicrophonesRightRail}}</td>
+				</tr>
+			</thead>
+		</table>
+
+	</div>
+	<div class="modal-footer">
+		<table>
+			<tr>
+				<td width="10%"><input type="button" class="btn" id="previous"
+					value="Prev" ng-click="getRegisterDetailPrevious()"></input>
+				</td>
+				<td width="10%"></td>
+				<td width="10%"><input type="button" class="btn" id="next"
+					value="Next" ng-click="getRegisterDetailNext()"></input>
+				</td>
+				<td width="30%"></td>
+				<td widh="30%"></td>
+				<td width="10%"><a href="#" class="btn" data-dismiss="modal"
+					aria-hidden="true">Close</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

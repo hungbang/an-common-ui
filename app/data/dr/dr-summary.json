@@ -1,0 +1,32 @@
+[
+
+    {
+        "id": "200345",
+        "name": "Detector Dave",
+        "model": "327-879",
+        "type": "WTD",
+        "status": "Active"
+    },
+    {
+        "id": "1760004",
+        "name": "Thomas the Train",
+        "model": "321-89",
+        "type": "ABD",
+        "status": "Inactive"
+    },
+    {
+        "id": "57",
+        "name": "Sammy",
+        "model": "450-006",
+        "type": "HBD",
+        "status": "Active"
+    },
+    {
+        "id": "00003",
+        "name": "Alert Alex",
+        "model": "07-89",
+        "type": "WILD",
+        "status": "Active"
+    }
+
+]

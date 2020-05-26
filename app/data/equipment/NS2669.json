@@ -1,0 +1,30 @@
+{
+	"id": "NS 2669",
+	"rawUdeCount": "2",
+	"trainCount" : "3",
+	"railroadCount": "3",
+	"failures": [
+		{
+			"eventTimestamp": "05/06/2013 09:00:00",
+			"reason": "No Cause Found",
+			"mileage": "765"
+		},
+		{
+			"eventTimestamp": "05/06/2013 09:00:00",
+			"reason": "Air Hose Seperation",
+			"mileage": "823"
+		},
+		{
+			"eventTimestamp": "05/08/2013 09:00:00",
+			"reason": "Sticking Brakes",
+			"mileage": "1134"
+		},
+		{
+			"eventTimestamp": "05/10/2013 09:00:00",
+			"reason": "No Cause Found",
+			"mileage": "6500"
+		}
+
+	]
+
+}

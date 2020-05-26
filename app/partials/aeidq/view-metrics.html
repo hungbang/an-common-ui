@@ -1,0 +1,104 @@
+
+<div class="container">
+	<ul class="breadcrumb">
+		<li><a href="#/assethealth">Home</a> <span class="divider">/</span></li>
+		<li class="active">AEI DQ</li>
+	</ul>
+	<div class="page-header span12">
+		<h2>View Metrics</h2>
+	</div>
+	<div class="card clearfix">
+		<div class="card clearfix">
+			<div style="overflow: auto;">
+				<div>
+					<div class="col-md-6">
+						<p class="input-group">
+						<label>Metrics Date:</label><input type="text" class="form-control"
+						datepicker-popup="{{dateFormat}}" ng-model="filterDate"
+						is-open="opened" datepicker-options="dateOptions"
+						ng-required="true" required />
+						</p>
+					</div>
+					<div class="col-md-6">
+						<p class="input-group">
+						<label>Mark Name:</label><input type="text" class="form-control" ng-model="markName" 
+						ng-required="true" required />
+						</p>
+					</div>
+				
+				</div>
+				<form ng-submit='getResults()'>
+					<input type="submit" value="Get Results" />
+				</form>
+				{{transactionData.errorMessage}}
+				<div style='height: 300px'>
+					<table class="table table-striped table-hover"
+						id="metricsDetailTable">
+						<thead>
+							<tr>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'id.matrixDate'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Metrics Date</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'id.submittingMarkName'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Mark Name</u></th>								
+								<th nowrap="nowrap"
+									ng-click="orderX = 'id.submissionType'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Submission Type</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'id.messageFormat'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Message Format</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'passedMessages'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Passed Messages</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'failedMessages'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Failed Messages</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'totalMessages'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Total Messages</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'sizeOfMessage'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Message Size</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'elapsedTime'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Elapsed Time(ms.)</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'createdTs'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Created Time</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'modifiedTs'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Modified Time</u></th>									
+							</tr>
+						</thead>
+						<tbody style='height: 30px'>
+							<tr
+								ng-repeat="transaction in transactionData.aeiSubmissionMatrixList">
+								<td>{{transaction.id.matrixDate}}</td>
+								<td>{{transaction.id.submittingMarkName}}</td>
+								<td>{{transaction.id.submissionType}}</td>
+								<td>{{transaction.id.messageFormat}}</td>
+								<td>{{transaction.passedMessages}}</td>
+								<td>{{transaction.failedMessages}}</td>
+								<td>{{transaction.totalMessages}}</td>
+								<td>{{transaction.sizeOfMessage}}</td>
+								<td>{{transaction.elapsedTime}}</td>
+								<td>{{transaction.createdTs | date:'MM/dd/yyyy HH:mm:ss'}}</td>
+								<td>{{transaction.modifiedTs | date:'MM/dd/yyyy HH:mm:ss'}}</td>								
+							</tr>
+						</tbody>
+						<tbody ng-hide="isTransactionData">
+							<tr>
+								<td colspan="10">
+									<div class="text-center">
+										<h3>No Transactions Found</h3>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

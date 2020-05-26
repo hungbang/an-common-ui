@@ -1,0 +1,27 @@
+ <div class="equip-detail">
+ 	<h4>Details for {{equipment.id}}</h4>
+	<div style="padding:10px;">
+        <table class="table table-hover table-bordered">
+               <caption>
+                   Raw UDE Count = {{equipment.rawUdeCount}} 
+                   Train Count = {{equipment.trainCount}} 
+                   Railroad Count = {{equipment.railroadCount}}
+               </caption>
+               <thead>
+                   <tr>
+                       <th>Event Timestamp</th>
+                       <th>Failure Reason</th>
+                       <th>Mileage</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr ng-repeat="failure in equipment.failures">
+                       <td>{{failure.eventTimestamp}}</td>
+                       <td>{{failure.reason}}</td>
+                       <td>{{failure.mileage}}</td>
+                   </tr>
+               </tbody>
+		</table>
+	</div>
+	
+</div>

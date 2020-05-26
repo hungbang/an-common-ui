@@ -1,0 +1,124 @@
+<div class="container" ng-controller="WaysideErrorAnalysisCtrl">
+	<div class="row-fluid">
+		<div class="page-header span12">
+			<h3 align="center">Wayside Error Analysis</h3>
+		</div>
+	</div>	
+	
+	<!-- debug stuff --
+	<div>
+		<label>exportingDataFlag = {{exportingDataFlag}}</label>
+		<label>recordCount = {{recordCount}}</label>
+		<label>largeResultFlag = {{largeResultFlag}}</label>
+		<label>retrievingErrorRecordsFlag = {{retrievingErrorRecordsFlag}}</label>
+		<label>retrievingSitesFlag = {{retrievingSitesFlag}}</label>
+		<label>canSubmit = {{canSubmit}}</label>
+		<input type="button" value="Export Data" ng-click="exportData()" />
+		<label>detectorInfo = {{detectorInfo}}</label>
+		<label>detectorId = {{detectorInfo.ownerDetectorId}}</label>
+		<label>siteId = {{siteId}}</label>
+		<label>fromDateCal = {{fromDateCal}}</label>
+		<label>fromDateCal.date = {{fromDateCal.date}}</label>
+		<label>toDateCal = {{toDateCal}}</label>
+		<label>toDateCal.date = {{toDateCal.date}}</label>
+	</div>
+	<!-- end debug stuff -->
+	
+	<div >
+		<div class="row-fluid" >
+		<form class="form-inline" ng-submit='handleSubmit()'>
+			<div>
+			<label><b>Detector Id #</b></label> 
+			<label ng-show="retrievingSitesFlag">(Loading Detectors...)</label> 
+			<select name="siteId" ng-model="detectorInfo"
+				ng-options="v.ownerDetectorId for v in sites" 
+				ng-change="checkCanSubmit()"
+				ng-show="!retrievingSitesFlag"
+				style="width: 200px">
+				<option value="">Select</option>
+			</select>
+			</div>
+		 	<div>
+			<label><b>From:</b></label> 
+			<input type="text" class="form-control" ng-show=true 
+				datepicker-popup="{{dateFormat}}" ng-model="fromDateCal.date" is-open="fromDateCal.opened"
+				datepicker-options="dateOptions"
+				date-disabled="disabled(date, mode)"
+				close-text="Close" 
+				ng-change="checkCanSubmit()" />
+			<span ng-show='fromDateCal.showCal'>({{dateFormat}})</span>
+			<input type="text" ng-model="text" ng-show='fromDateCal.showTextInput' />	
+			</div>
+		 	<div>
+			<label><b>To:</b></label> 
+			<input type="text" class="form-control" ng-show=true 
+				datepicker-popup="{{dateFormat}}" ng-model="toDateCal.date" is-open="toDateCal.opened"
+				datepicker-options="dateOptions"
+				date-disabled="disabled(date, mode)"
+				close-text="Close" 
+				ng-change="checkCanSubmit()" />
+			<span ng-show='toDateCal.showCal'>({{dateFormat}})</span>
+			<input type="text" ng-model="text" ng-show='toDateCal.showTextInput' />	
+			</div>
+			<div>
+				<input type="submit" value="Submit" ng-disabled="!canSubmit" />
+			</div>
+		</form>
+	  </div>
+	</div>	
+	<div ng-show=searchPerformed>
+		<div id="largeResultMsgArea" ng-show="largeResultFlag" >
+			<Label>Your search returned {{recordCount}} records</Label>
+			<input type="button" value="Display Results" ng-disabled="retrievingErrorRecordsFlag || transactionData.waysideErrorAnalysisRecordList.length" ng-click="getResults()" />
+		</div>
+		<div class="text-center spinner"
+			ng-show="retrievingErrorRecordsFlag">
+			<img src="../images/loading_progress.gif" />
+		</div>
+		<div>
+			<input type="button" value="Export Data" ng-disabled="exportingDataFlag || retrievingErrorRecordsFlag || recordCount < 1" ng-click="exportData()" />
+		</div>
+		<div id="waysideErrorResults" ng-show="!retrievingErrorRecordsFlag">
+			
+			<div class="text-center"
+				ng-show="!transactionData.waysideErrorAnalysisRecordList.length && !transactionDataSpinner && !largeResultFlag" >
+				<h3>No Results Found</h3>
+			</div>
+			<div ng-show="transactionData.waysideErrorAnalysisRecordList.length && !transactionDataSpinner">
+				<div style='height: 300px; overflow: auto'>
+					<table class="table table-striped table-hover"
+						id="transactionDetailTable">
+						<thead>
+							<tr>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'trainpassTimestamp'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Trainpass Timestamp</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'errorCode'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Error Code</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'errorDescription'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Error Description</u></th>
+								<th nowrap="nowrap"
+									ng-click="orderX = 'dateTime'; reverseX=!reverseX"
+									style="cursor: pointer;"><u>Processing Timestamp</u></th>
+							</tr>
+						</thead>
+						<tbody style='height: 30px'>
+							<tr
+								ng-repeat="element in transactionData.waysideErrorAnalysisRecordList">
+								<td>{{element.trainpassTimestamp | date:'MM/dd/yyyy HH:mm:ss Z'}}</td>
+								<td>{{element.errorCode}}</td>
+								<td>{{element.errorDescription}}</td>								
+								<td>{{element.processingTimestamp | date:'MM/dd/yyyy HH:mm:ss Z'}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+
+
+

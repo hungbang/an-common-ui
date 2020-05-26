@@ -1,0 +1,248 @@
+
+/************** Header Util Nav*******************/
+#rail-header {
+    z-index:50;
+    position:fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    background-color:#fff;
+    padding: 10px;
+    -moz-box-shadow: 0 0 5px #333;
+    -webkit-box-shadow: 0 0 5px #333;
+    box-shadow: 0 0 5px #333;
+}
+#rail-footer {margin-top:50px}
+#rail-footer ul.menu li {
+  display: inline;
+  margin-right: 10px;
+  border-right: 1px solid #777;
+  padding-right: 10px;
+}
+.rail-footer-info {text-align:center; padding-top:30px; border-top: 2px solid #c21735;}
+
+
+#railinc-logo {
+    border-right: 1px solid #9d9fa1;
+}
+
+#rail-app-name {
+    position: relative;
+    padding:5px;
+    margin-left:5px;
+    font-weight: normal;
+    font-size: 14px;
+    display: inline-block;
+    color: #4a484c;
+    border-left: 1px solid #9d9fa1;
+    letter-spacing: 1px;
+}
+
+#rail-app-user {
+    color: #000;
+    font-size: 14px; }
+
+#rail-app-user-company {
+    color: #990000;
+    font-size: 12px; }
+
+/*******************utility navigation***************/
+#util-nav-wrapper {
+    float: right;
+    min-width: 400px;
+    text-align: right;
+    margin: 0;
+    height: auto;
+    padding: 0;
+    background-color: #FFF; }
+
+#util-nav {
+    position: relative;
+    background-color: #FFF;
+    padding:0;
+    margin:0; }
+
+#util-nav li {
+    display: inline;
+    list-style: none;
+    text-align: right;
+
+    padding: 5px;
+    border-right: 1px solid #9d9fa1; }
+
+#util-nav li a {
+    font-size: 12px;
+    color: #9d9fa1;
+    text-decoration: none;
+    margin: 0;
+    padding: 0; }
+
+#util-nav li:first-child a {
+    border-left: 0;
+    margin: 0;
+    padding: 0; }
+
+#util-nav li.lastLK {
+    border: none; }
+
+#util-nav li a:hover {
+    color: #900;
+    text-decoration: underline; }
+
+/************** END Header Util Nav*************/
+/**************** Launch Pad *****************/
+#rail-launch-pad-link {
+    display:inline-block;
+    text-align:left;
+    background-image: url('../images/arrow_grey.png');
+    background-repeat: no-repeat;
+    background-position: 100% 60%;
+    width: 80px;
+    padding: 0 20px 0 5px; }
+
+#rail-launch-pad {
+    position: absolute;
+    /*--Important--*/
+    top: 25px;
+    left: 0px;
+    z-index: 99999;
+    -moz-border-radius-bottomright: 5px;
+
+    -webkit-border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+
+    -webkit-border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 1px solid #EAEAEA;
+    padding: 5px 0 0 5px;
+    background-color: #FFF;
+
+    display: none;
+    -moz-box-shadow: 0 0 5px #333;
+    -webkit-box-shadow: 0 0 5px #333;
+    box-shadow: 0 0 5px #333;
+}
+
+#rail-launch-pad ul {
+    list-style: none;
+    margin: 0;
+    width: auto;
+    float: left;
+    padding: 5px 15px 5px 5px; }
+
+#rail-launch-pad ul li {
+    width: 100%;
+    /*--Override parent list item--*/
+    color: #fff;
+    text-align: left;
+    display: block;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    border: none;
+    line-height: 24px; }
+
+#rail-launch-pad ul li h2 {
+    /*--Sub nav heading style--*/
+    font-size: 14px;
+    font-weight: normal;
+    border-bottom: 1px solid #000;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0 10px 0 0;
+    color: #333; }
+
+#rail-launch-pad ul li h2 a {
+    /*--Sub nav heading link style--*/
+    background-image: none;
+    color: #000; }
+
+#rail-launch-pad ul li a {
+    float: none;
+    text-indent: 0;
+    /*--Override text-indent from parent list item--*/
+    height: auto;
+    display: block;
+    text-decoration: none;
+    width: auto;
+    padding: 0 10px 0 10px;
+    margin: 0; }
+
+#rail-launch-pad ul li a:hover {
+    color: #900;
+    text-decoration: underline;
+    background-color: #FFF; }
+
+/**************** END Launch Pad *****************/
+
+
+
+/*#rail-app-container {
+       bottom: 0px;
+       overflow-y: auto;
+       width: 100%;
+} */
+
+.panel {
+    background-color: #fff;
+    border:1px solid #ddd;
+}
+
+.panel-header {
+    border-bottom:1px solid #ddd;
+    padding:5px;
+    color:#4a484c;
+    margin:0;
+    font-size:16px;
+}
+
+.panel-content {
+    padding:5px;
+}
+
+
+/* Clearfix */
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/* Highlighting */
+.text-warning {
+    color: #c09853;
+}
+
+.text-error {
+    color: #b94a48;
+}
+
+.text-info {
+    color: #3a87ad;
+}
+
+.text-success {
+    color: #468847;
+}
+@media (max-width: 351px) {
+       #railinc-logo{
+              display: none;
+       }
+}
+@media (min-width: 352px) {
+       #r-logo{
+              display: none;
+       }
+}
+

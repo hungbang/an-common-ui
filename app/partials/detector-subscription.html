@@ -1,0 +1,266 @@
+<div class="container">
+
+	<div class="tabbable">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab1" data-toggle="tab"><b>New
+						Subscription</b></a></li>
+			<li><a href="#tab2" data-toggle="tab" ng-click="refreshMySubscriptions()"><b>Manage My Subscriptions</b></a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab1">
+			<div class="alert alert-success" ng-show="showSubscriptionSuccessAlert">
+				<a id="topAnchor"></a> 
+				<strong>The selected detector(s) is successfully submitted for subscription. The respective detector owner(s) will be notified.</strong> 
+			</div>	
+			<div class="alert alert-error" ng-show="showDetectorTypeRequiredError || showDetectorOwnerRequiredError">
+<ul>
+					<li ng-show="showDetectorTypeRequiredError">
+					<strong>Please select a Detector Type.</strong> 
+					</li>
+					<li ng-show="showDetectorOwnerRequiredError">
+					<strong>Please select at least one Mark.</strong> 
+					</li>
+				</ul>
+			</div>	
+				<div class="card">
+
+					<div>&nbsp;</div>
+					<h4>Search Detector Site(s)</h4>					
+					<div>
+						<div class="row-fluid">
+							<form name="searchDetectorsForm" class="form-inline">
+								<div>
+								<label><b>Select Detector Type:</b></label> 
+								<select name="detectorTypeSelectInput" ng-model="detectorsByTypeForm.detectorType" >
+										<option value="">Select Detector Type</option>
+										<option ng-repeat="detType in detectorTypeOptions" 
+											value="{{detType.detectorTypeId}}" 
+											ng-disabled="detType.disabled">{{ detType.detectorTypeName}}</option>										
+									</select>
+								</div>
+								<div>
+									<p>
+								</div>
+								<div>
+									<table>
+										<tr>
+											<td><label><b>Select Mark:</b>&nbsp;</label></td>
+											<td
+												ng-repeat="detectorOwner in detectorsByTypeForm.detectorOwners">
+												<input type="checkbox" ng-model="detectorOwner.selected"  
+												>
+												{{detectorOwner.mark}} </input>&nbsp;
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div>
+									<p>
+								</div>
+								<div align="right">
+									<input type="submit" class="btn btn-info btn-lg"
+										ng-click="getDetectorsByTypeAndMark(detectorsByTypeForm)"
+										value="Search" />
+									<button class="btn btn-warning btn-lg" ng-click="resetDetectorSearchForm()">Cancel</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+<!-- 									{{selectedDetectors}} ==> {{detectorTableParams.page}} -->
+				<div class="card">
+					<div class="row-fluid">
+						<div id="spinner" class="text-center" ng-show="detectorSpinner">
+							<img src="../images/loading_progress.gif" />
+						</div>
+
+						<div ng-show="detectorSearchPerformed" style="overflow: auto;">
+							<table>
+								<tr>
+									<td width="90%" style="text-align: left"><h3>Search Detector Site(s)</h3></td>
+									<td nowrap align="right"><b>Find:</b> <input type="text"
+										align="right" ng-model="detectorSearch"  maxlength="15"
+										ng-change="doFilterDetectors()"></td>
+								</tr>
+							</table>
+							<table ng-table="detectorTableParams" show-filter="false"
+								 class="table table-hover"
+								id="myDetectorsTable">
+								<tbody>
+									<tr ng-repeat="detector in _detectors">
+										<td header="'ng-table/headers/detector-checkbox.html'" data-title="''"><input
+											type="checkbox"
+											value="{{detector.detectorId}}"
+											ng-model="detector.selected"
+											ng-click="selectDetector(detector.detectorId, detector.trainDirection)" /></td>
+										<td data-title="'RR Mark'" sortable="detectorOwner">{{
+											detector.detectorOwner }}</td>
+										<td data-title="'Detector Site'" sortable="ownerDetectorId">{{
+											detector.ownerDetectorId }}</td>
+										<td data-title="'Detector Name'" sortable="detectorSiteName">{{
+											detector.detectorSiteName }}</td>
+										<td data-title="'Latitude'" sortable="siteLatitude">{{
+											detector.siteLatitude }}</td>
+										<td data-title="'Longitude'" sortable="siteLongitude">{{
+											detector.siteLongitude }}</td>
+										<td data-title="'Train Direction'" sortable="trainDirection">{{
+											detector.trainDirection }}</td>										
+									</tr>
+								</tbody>
+								<tbody
+									ng-show="(detectorSpinner == false && detectors.length == 0)">
+									<tr>
+										<td colspan="10">
+											<div class="text-center">
+												<h3>No Detectors Found</h3>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+					</div>
+					<div align="right" ng-show="(selectedDetectors.length > 0)" style="padding-right: 80px;">
+						<button type="button" class="btn btn-info btn-lg" 
+							data-toggle="modal" data-target="#commentsPane" 
+							ng-show="(selectedDetectors.length > 0)"
+							ng-click="dummy()">Subscribe</button>
+							<button type="button" class="btn btn-warning btn-lg" 							
+							ng-show="(selectedDetectors.length > 0)"
+							ng-click="resetDetectorResultsForm()">Cancel</button>
+					</div>
+				</div>
+				<div class="tab-pane" id="tab2">
+				
+				<!--  begin ng-table integration -->
+								
+				<div class="alert alert-success" ng-show="showUnsubscribeSuccessAlert">
+					<strong>The selected detector(s) are successfully unsubscribed.</strong>
+				</div>
+				<div class="card">
+					<div class="row-fluid">
+						<div id="spinner" class="text-center" ng-show="subscriptionsSpinner">
+							<img src="../images/loading_progress.gif" />
+						</div>
+
+						<div style="overflow: auto;">
+							<table>
+								<tr>
+									<td width="90%" style="text-align: left"><h3>My Detector Subscriptions</h3></td>
+									<td nowrap align="right"><b>Find:</b> <input type="text"
+										align="right" ng-model="subsSearch"  maxlength="15"
+										ng-change="doFilterSubs()"></td>
+								</tr>
+							</table>
+							<table ng-table="tableParams" show-filter="false"
+								 class="table table-hover"
+								id="mySubscriptionsTable">
+								<tbody>
+									<tr ng-repeat="mySub in _mySubscriptions">
+										<td header="'ng-table/headers/mysubs-checkbox.html'" data-title="''"><input
+											type="checkbox"
+											value="{{mySub.detectorSubscriptionId}}"
+											ng-model="mySub.selected"
+											ng-show="showUnsubscribeCheckbox(mySub)"
+											ng-click="selectSub(mySub.detectorSubscriptionId)" /></td>
+										<td data-title="'RR Mark'"
+											sortable="detectorOwner">{{
+											mySub.detectorOwner }}</td>
+										<td data-title="'Detector Site'" sortable="detectorCarrierId">{{
+											mySub.detectorCarrierId }}</td>
+										<td data-title="'Detector Name'" sortable="detectorSiteName">{{
+											mySub.detectorSiteName }}</td>
+										<td data-title="'Latitude'" sortable="gpsLatitude">{{
+											mySub.gpsLatitude }}</td>
+										<td data-title="'Longitude'" sortable="gpsLongitude">{{
+											mySub.gpsLongitude }}</td>
+										<td data-title="'Train Direction'" sortable="trainDirection">{{
+											mySub.trainDirection }}</td>
+										<td data-title="'Submitted Date'" sortable="submittedDate">{{
+											mySub.submittedDate }}</td>	
+										<td data-title="'Status'" sortable="subStatus">{{
+											mySub.subStatus }}</td>	
+									</tr>
+								</tbody>
+								<tbody
+									ng-show="(subscriptionsSpinner == false && mySubscriptions.length == 0)">
+									<tr>
+										<td colspan="10">
+											<div class="text-center">
+												<h3>No Subscriptions Found</h3>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div align="right" ng-show="(mySubscriptions.length != 0)"
+					style="padding-right: 80px;">
+					
+					<button type="button" class="btn btn-info btn-lg"
+						data-toggle="modal" data-target="#unsubscribePane"
+						ng-show="(selectedSubs.length > 0)" ng-click="foo()">Unsubscribe</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-warning btn-lg" 							
+							ng-show="(selectedSubs.length > 0)"
+							ng-click="resetMySubs()">Cancel</button>						
+				</div>
+				
+				<!--  end ng-table integration -->
+				</div>	
+		</div>
+
+		<script type="text/ng-template" id="ng-table/headers/detector-checkbox.html">
+			<input type="checkbox" ng-model="view.selectAllDetectors" ng-click="selectAllFilteredDetectors()">
+    	</script>
+    	
+    	<script type="text/ng-template" id="ng-table/headers/mysubs-checkbox.html">
+			<input type="checkbox" ng-model="view.selectAllActiveSubs" ng-click="selectAllFilteredActiveSubs()">
+    	</script>
+	</div>
+</div>
+
+
+<div id="commentsPane" class="modal hide fade" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true">&times;</button>
+		<h4>Are you sure you want to submit your request for subscription?</h4>	
+		<h4>Notes/Comments: </h4>
+	</div>
+	<div class="modal-body">
+		<form name="testForm" class="form-horizontal" role="form"
+				novalidate>
+			<textarea rows="4" cols="80" maxlength="1000" ng-model="comments"></textarea>
+		</form>
+	</div>
+	<div class="modal-footer">
+			<div>
+				<br>		
+				<input type="submit" class="btn btn-info btn-lg" ng-click="requestSubscription()" value="Subscribe" data-dismiss="modal" aria-hidden="true"/>
+				<button type="button" class="btn btn-warning btn-lg" ng-click="removeComments()" data-dismiss="modal" aria-hidden="true">Cancel</button>
+			</div>		
+	</div>
+</div>
+
+<div id="unsubscribePane" class="modal hide fade" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true">&times;</button>
+		<h4>Are you sure you want to unsubscribe from the selected detectors?</h4>			
+	</div>
+	<div class="modal-footer">
+			<div>
+				<br>		
+				<input type="submit" class="btn btn-info btn-lg" ng-click="unsubscribe()" value="YES" data-dismiss="modal" aria-hidden="true"/>
+				<button type="button" class="btn btn-warning btn-lg" ng-click="foo()" data-dismiss="modal" aria-hidden="true">NO</button>
+			</div>		
+	</div>
+</div>

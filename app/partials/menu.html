@@ -1,0 +1,96 @@
+<div ng-controller="LandingPageCtrl">
+	<div rl-navbar>
+		<li ng-class="{ active: isActive('/assethealth')}"><a
+			href="#/assethealth">Home</a></li>
+		<li ng-show="isConsistManager"
+			ng-class="{ active: isActive('/assetRepository')}" class="dropdown"><a
+			href="#" class="dropdown-toggle" data-toggle="dropdown">Asset
+				Repository<b class="caret"></b>
+		</a>
+			<ul class="dropdown-menu">
+				<li><a href="#/equipment"><i class="icon-search"></i>Equipment
+						Search</a></li>
+				<li ng-hide="isProduction"><a href="#/submissions"><i
+						class="icon-tasks"></i>Event Submissions</a></li>
+				<li ng-hide="isProduction"><a href="#/submitEventXml"><i
+						class="icon-edit"></i>Submit Event XML</a></li>
+			</ul></li>
+
+		<li ng-show="isDetectorEnable"
+			ng-class="{ active: isActive('/temperatureReader')}" class="dropdown"><a
+			href="#" class="dropdown-toggle" data-toggle="dropdown">Wayside Analysis<b
+				class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li ng-show="isDetectorEnable"><a href="#/temperatureReader"><i
+						class="icon-list-alt"></i>Wayside Data Analysis</a></li>
+				<li ng-show="isDetectorEnable"><a href="#/waysideErrorAnalysis"><i
+						class="icon-list-alt"></i>Wayside Error Analysis</a></li>
+			</ul></li>		
+				
+		<li ng-show="isDetectorEnable"
+			ng-class="{ active: isActive('/detector')}" class="dropdown"><a
+			href="#" class="dropdown-toggle" data-toggle="dropdown">Detector<b
+				class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li ng-show="viewRegistryEnabled"><a href="#/detectorRegistry"><i
+						class="icon-list-alt"></i>View Registry</a></li>
+                  <li class="dropdown-submenu">
+                        <a>Subscription</a>
+                        <ul class="dropdown-menu">
+							<li ng-show="viewDetectorSubscriptionEnabled"><a href="#/detectorSubscription"><i
+									class="icon-list-alt"></i>Request Subscription</a></li>		
+							<li ng-show="viewApproveSubscriptionEnabled"><a href="#/approveSubscription"><i
+									class="icon-list-alt"></i>Approve Subscription</a>
+							</li>
+                        </ul>
+                  </li>             
+			</ul>
+		</li>
+
+		<li ng-show="isSupportUiEnable"
+			ng-class="{ active: isActive('/support')}" class="dropdown"><a
+			href="#" class="dropdown-toggle" data-toggle="dropdown">Support<b
+				class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li><a href="#/support/transaction-flow-tracing"><i
+						class="icon-list-alt"></i> Transaction Flow Tracing</a></li>
+				<li><a href="#/support/audit-log-tracing"><i
+						class="icon-list-alt"></i> Audit Log Tracing</a></li>
+				<li><a href="#/support/resubmit-source-events"><i
+						class="icon-list-alt"></i> Resubmit Source Events</a></li>
+			</ul></li>
+		<li ng-show="isAEIDQUiEnable"
+			ng-class="{ active: isActive('/aeidq')}" class="dropdown"><a
+			href="#" class="dropdown-toggle" data-toggle="dropdown">AEI-DQ<b
+				class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li><a href="#/aeidq/view-metrics"><i
+						class="icon-list-alt"></i> View Metrics</a></li>
+				<!-- Disabled for now 
+				<li><a href="#/aeidq/generate-metrics"><i
+						class="icon-list-alt"></i> Generate Metrics</a></li> -->
+				<li><a href="#/aeidq/metrics-trending"><i
+						class="icon-list-alt"></i> Metrics Trending</a></li>
+				<li><a href="#/aeidq/tag-status-summary"><i
+						class="icon-list-alt"></i>Tag Status Summary</a></li>
+				<li><a href="#/aeidq/tag-status-detail"><i
+						class="icon-list-alt"></i>Tag Status Detail</a></li>
+			</ul></li>	
+		<li ng-show="isAdminUiEnable" ng-class="{ active: isActive('/admin')}"
+			class="dropdown"><a href="#" class="dropdown-toggle"
+			data-toggle="dropdown">Admin<b class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li><a href="#/admin"><i class="icon-list-alt"></i>
+						Dashboard</a>
+			</ul></li>
+		
+		<li ng-show="isDetectorEnable"
+			class="dropdown"><a
+			href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation<b
+				class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li><a href="" ng-click ="openUserGuide()" target="_blank"><i
+						class="icon-list-alt"></i>User Guide</a></li>
+			</ul></li>
+	</div>
+</div>

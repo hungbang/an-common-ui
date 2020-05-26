@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="assethealth" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="assethealth" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="assethealth" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="assethealth" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Railinc Asset Health</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="lib/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="lib/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="app.css">
+
+
+  <!--- Separated for Dev purposes only - concatenate for prod -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/ng-table.css" />
+  <!-- <link rel="stylesheet" href="css/bootstrap.min-std.css" /> -->
+  <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+  <link rel="stylesheet" href="css/standard.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/jquery.placeholder.min.css" />
+  <link rel="stylesheet" href="css/jquery.jqplot.css" />
+  <link rel="stylesheet" href="css/angular-carousel.min.css" />
+
+
+  <!--[if lt IE 9]>
+  <script src="lib/es5-shim.min.js"></script>
+  <script src="lib/html5shiv.js"></script>
+  <script src="lib/respond.min.js"></script>
+  <![endif]-->
+
+
+
+  <script src="lib/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div rl-header name="Asset Health" user="" company="" ></div>
+  <div ng-include="'partials/menu.html'"></div>
+
+  <div ng-view class="app-view"></div>
+
+  <div rl-footer year=2016></div>
+
+  <!-- Need to move the below controllers to seperate js file -->
+  <!--<div ng-controller="UploadCtrl" id="eventUpload" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-header">-->
+      <!--<button type="button" class="close" data-dismiss="modal"-->
+              <!--aria-hidden="true">&times;</button>-->
+      <!--<h3>Submit Class I Events</h3>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
+      <!--<div ng-show="uploadFormData.response.success" class="alert alert-success">-->
+        <!--Your file has been successfully submitted. Processing started...-->
+      <!--</div>-->
+      <!--<ul ng-show="uploadFormData.response.errors.length" class="unstyled alert alert-error">-->
+        <!--<li class="error" ng-repeat="error in uploadFormData.response.errors">{{error.text}}</li>-->
+      <!--</ul>-->
+      <!--<form name="uploadForm" class="form-horizontal" novalidate ng-upload action="{{uploadFormData.formTarget}}" method="post" enctype="multipart/form-data">-->
+        <!--<input id="ssoUserid" name="ssoUserid" value="{{userData.userId}}" type="hidden" />-->
+        <!--<div class="control-group">-->
+          <!--<label class="control-label">Event Type</label>-->
+          <!--<div class="controls" ng-class="{error: uploadForm.eventType.$invalid && uploadForm.$dirty}">-->
+            <!--<select name="eventType" ng-required="true" required ng-model="uploadFormData.formTarget" ng-options="obj.target as obj.event for obj in uploadFormData.eventTargetMap">-->
+              <!--<option value="">&#45;&#45; Choose File Event Type &#45;&#45;</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="control-group">-->
+          <!--<label class="control-label">File</label>-->
+          <!--<div class="controls">-->
+            <!--<input id="fileData" ng-required="true" required name="fileData" type="file" />-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="btn-toolbar pull-right">-->
+          <!--<button ng-disabled="uploadForm.$invalid" class="btn btn-primary" type="submit" value="Upload" upload-submit="submitted(content, completed)">Upload</button>-->
+          <!--<button type="button" class="btn" data-dismiss="modal" >Close</button>-->
+        <!--</div>-->
+      <!--</form>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <script src="js/common/config.js"></script>
+
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="lib/angular.min.js"></script>
+  <!--<script src="lib/angular-route/angular-route.js"></script>-->
+  <script src="app.js"></script>
+  <script src="core/version/version.js"></script>
+  <script src="core/version/version-directive.js"></script>
+  <script src="core/version/interpolate-filter.js"></script>
+
+
+
+  <!--[if lt IE 9]>
+  <script language="javascript" type="text/javascript" src="lib/excanvas.min.js"></script><![endif]-->
+  <script src="lib/jquery-1.9.1.min.js"></script>
+  <script src="lib/jquery-ui.min.js"></script>
+  <script src="lib/jquery.hoverIntent.minified.js"></script>
+  <!--<script src="lib/angular.min.js"></script>-->
+  <script src="lib/ngTable.js"></script>
+  <script src="lib/ui-bootstrap-tpls-0.6.0.js"></script>
+  <script src="lib/ng-upload.min.js"></script>
+  <script src="lib/jquery.placeholder.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/standard.js"></script>
+  <script src="js/logged-user-util.js"></script>
+  <script src="lib/angular-carousel.min.js"></script>
+  <script src="lib/angular-mobile.js"></script>
+  <script src="js/sort-util.js"></script>
+  <script src="lib/filesaver.min.js"></script>
+
+  <!-- Begin jqPlot charts -->
+  <!-- This was added to get around jqPlot dependency on deprecated jQuery function.
+       See http://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools -->
+  <script src="lib/jquery-migrate-1.2.1.min.js"></script>
+  <script src="js/ui-chart.js"></script>
+  <!--<script src="lib/ng-upload.min.js"></script>-->
+  <script src="lib/jquery.jqplot.js"></script>
+  <script src="lib/jqplot.canvasTextRenderer.min.js"></script>
+  <script src="lib/jqplot.canvasAxisLabelRenderer.min.js"></script>
+  <script src="lib/jqplot.canvasAxisTickRenderer.min.js"></script>
+  <script src="lib/jqplot.highlighter.min.js"></script>
+  <script src="lib/jqplot.cursor.min.js"></script>
+  <script src="lib/jqplot.dragable.min.js"></script>
+  <script src="lib/jqplot.enhancedLegendRenderer.min.js"></script>
+  <script src="lib/jqplot.barRenderer.min.js"></script>
+  <script src="lib/jqplot.categoryAxisRenderer.min.js"></script>
+  <script src="lib/jqplot.canvasOverlay.min.js"></script>
+  <script src="lib/jqplot.pointLabels.min.js"></script>
+  <script src="js/wheel-temperature-chart-jqplot.js"></script>
+  <script src="js/wheel-temperature-frequency-chart-jqplot.js"></script>
+  <script src="lib/jqplot.dateAxisRenderer.min.js"></script>
+  <!-- End jqPlot charts -->
+
+
+
+
+  <!-- Filters, Controllers & Routes Oh My-->
+  <script type="text/javascript" src="js/filters.js"></script>
+  <script type="text/javascript" src="js/common/rail-common.js"></script>
+  <script type="text/javascript" src="js/controllers/LandingPageCtrl.js"></script>
+  <script type="text/javascript" src="js/routeprovider.js"></script>
+  <script type="text/javascript" src="js/models/EquipmentData.js"></script>
+  <script type="text/javascript" src="js/models/LocationModel.js"></script>
+  <script type="text/javascript" src="js/models/SiteModel.js"></script>
+  <script type="text/javascript" src="js/models/UploadFormData.js"></script>
+  <script type="text/javascript" src="js/models/UploadDetectorFormData.js"></script>
+  <script type="text/javascript" src="js/services/EquipmentApi.js"></script>
+  <script type="text/javascript" src="js/services/TrainApi.js"></script>
+  <script type="text/javascript" src="js/services/TrainEventApi.js"></script>
+  <script type="text/javascript" src="js/services/apiService.js"></script>
+  <script type="text/javascript" src="js/controllers/DetectorRegHistoryCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/DetectorRegistryCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/DetectorSubscriptionCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/ApproveSubscriptionCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/EquipmentQueryCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/SubmissionsCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/TemperatureReaderCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/WaysideErrorAnalysisCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/DetectorUploadResultsCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/TrainEquipmentCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/SwipableEquipmentListCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/TrainSelectionCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/UploadCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/UploadDetectorCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/XMLTrainEventCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/AdminDashboardCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/TransactionFlowCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/AuditLogTracingCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/ResubmitSourceEventsCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/ViewMetricsCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/GenerateMetricsCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/ViewMetricsTrendingCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/TagStatusSummaryCtrl.js"></script>
+  <script type="text/javascript" src="js/controllers/TagStatusDetailCtrl.js"></script>
+
+  <script>
+    $(function() {
+      // mega menu
+      rail.base.megaHoverOver();
+      rail.base.megaHoverOut();
+      //Set custom configurations for mega menu
+      rail.base.megaConfig();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+[
+    {
+      "filename": "sampleDataFile.csv",
+      "date": "07/29/2012 09:00:00",
+      "status": "processing",
+      "type": "LORF"
+    },
+    {
+        "filename": "sampleDataFile.csv",
+        "date": "07/29/2012 09:30:00",
+        "status": "done",
+        "type": "LORF"
+    },
+    {
+        "filename": "sampleDataFile.csv",
+        "date": "06/23/2012 11:00:00",
+        "status": "done",
+        "type": "Class I"
+    },
+    {
+        "filename": "sampleDataFile.csv",
+        "date": "06/15/2012 14:00:00",
+        "status": "error",
+        "type": "LORF"
+    }
+]

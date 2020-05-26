@@ -1,0 +1,24 @@
+<div class="container">
+  <ul class="breadcrumb">
+    <li><a href="#/assethealth">Home</a> <span class="divider">/</span></li>
+    <li class="active">Submit Event XML</li>
+  </ul>
+  <div class="page-header">
+    <h2>Submit Event XML</h2>
+  </div>
+</div>  
+<div class="container">
+  <div class="card clearfix">
+    <div class="alert alert-success" ng-show="submittedSuccessfully">
+      <a href="#" class="close" data-dismiss="alert">&times;</a>
+      <strong>Message Submitted</strong> Your message has been accepted for processing, check the status <a href="#/submissions">here</a>
+      or click the Reset button below the form to submit another message.
+      
+    </div>
+    <textarea ng-disabled="submittedSuccessfully" rows="20" id="xmlData" ng-model="xml" placeholder="Paste Train II event data here..."></textarea>
+    <div class="btn-toolbar pull-right">  
+      <button ng-disabled="submittedSuccessfully || xml.length == 0" class="btn btn-primary" ng-click="submitEvent()">Submit</button>
+      <button class="btn" ng-click="reset()">Reset</button>
+    </div>
+  </div>
+</div>

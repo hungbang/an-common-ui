@@ -1,0 +1,61 @@
+
+<div class="container">
+	<ul class="breadcrumb">
+		<li><a href="#/assethealth">Home</a> <span class="divider">/</span></li>
+		<li class="active">Support Dashboard</li>
+	</ul>
+	<div class="page-header span12">
+		<h2>Resubmit Source Events</h2>
+	</div>
+	<div class="row">
+		<form ng-submit='getFailedCount()'>
+			<div class="col-md-6">
+				<label>Bucket ID:</label>
+				<select class="form-control"
+					ng-model="filters.bucketId" ng-options="id for id in bucketIds"
+					ng-required="true" required><option value="">--
+						Choose Bucket ID --</option></select>
+			</div>
+            </br>
+			<div class="col-md-6">
+					<label>Start Date:</label>
+					 <div class="input-append"><input type="text" class="form-control"
+						datepicker-popup="{{dateFormat}}" ng-model="filters.dt" show-weeks="false"
+						is-open="opened" datepicker-options="dateOptions"
+						ng-required="true" />
+						<button type="button" class="btn btn-default" ng-click="open($event)"><i class="icon-calendar"></i></button></div>
+			</div>
+            </br>
+			<input type="submit" value="Get Failed Count" class="btn btn-info" />
+			<button ng-click='resetReport()' class="btn btn-info">Reset</button>
+		</form>
+		</br>
+		<div ng-show="showFailedCount">
+			<p class="{{reportClass}}">
+				Bucket ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{filters.bucketId}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total
+				Failed Count:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{failedCount}}</span>
+			</p>
+		</div>
+		<div ng-show="showGetCountError">
+			<p class="alert alert-danger">
+				<span>{{getCountErrorMsg}}</span>
+			</p>
+		</div>
+		<div ng-show="showResubmit">
+			<button ng-click='resubmitEvents()' class="btn btn-info">Resubmit</button>
+			<button ng-click='resetReport()' class="btn btn-info">Cancel</button>
+		</div>
+		<div>
+			<script type="text/ng-template" id="resubmit-modal.html">
+        <div class="modal-body">
+           <br/>
+           <p class="{{respItems.msgClass}}"><span>{{respItems.msg}}</span></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+        </div>
+            </script>
+		</div>
+
+	</div>
+</div>

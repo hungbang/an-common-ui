@@ -1,0 +1,38 @@
+<div class="container" ng-controller="UploadDetectorCtrl" id="eventDetectorUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="row-fluid">
+			<div class="page-header span12">
+				<h3 align="center">Upload Detector Information</h3>
+			</div>
+		</div>
+</div>
+       <div class="container">
+            <div ng-show="UploadDetectorFormData.response.success" class="alert alert-success">
+                {{UploadDetectorFormData.response.message}}
+            </div> 
+            <ul ng-show="UploadDetectorFormData.response.error" class="unstyled alert alert-error">
+                <li class="error">{{UploadDetectorFormData.response.message}}</li>
+            </ul>
+            <form name="uploadForm" class="form-horizontal" novalidate ng-upload action="{{UploadDetectorFormData.formTarget}}" method="post" enctype="multipart/form-data">
+                <input id="ssoUserid" name="ssoUserid" value="{{userData.userId}}" type="hidden" />
+                <div class="control-group">
+                    <label class="control-label">Event Type</label>
+                    <div class="controls" ng-class="{error: uploadForm.eventType.$invalid && uploadForm.$dirty}">
+                         <select name="eventType" ng-required="true" required ng-model="UploadDetectorFormData.formTarget" ng-options="obj.target as obj.event for obj in UploadDetectorFormData.eventTargetMap">
+                            <option value="">-- Choose File Event Type --</option>
+                        </select>
+                    </div>
+                  </div>
+                  <hr/>
+                  <div class="control-group">
+                    <label class="control-label">File</label>
+                    <div id="clearFlag" class="controls">  
+                       <input id="fileData" ng-required="true" required name="fileData" type="file" value=""/>
+                    </div>
+                 </div>
+                 <div class="btn-toolbar pull-right">
+                    <button ng-disabled="uploadForm.$invalid" class="btn btn-primary" type="submit" value="Upload" upload-submit="submitted(content, completed)">Upload</button>
+                     <button id="closeBtn" type="button" class="btn" ng-click="closeWindow()">Close</button>
+                 </div>
+            </form>
+        </div>
+    
